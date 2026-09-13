@@ -2,7 +2,7 @@
 
 # Robin Richards
 
-*IT Support | Help Desk | Microsoft Azure | Networking*
+*IT Support | Help Desk | Microsoft Azure | Networking | CompTIA Security+ Certified*
 
 [LinkedIn](https://www.linkedin.com/in/robin-richards-a64a08366)
 
