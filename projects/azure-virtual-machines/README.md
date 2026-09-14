@@ -8,7 +8,7 @@
 
 This project documents how to create Windows and Linux virtual machines (VMs) in Microsoft Azure. The walkthrough covers organizing resources, selecting operating systems and VM sizes, configuring networking, and confirming successful deployments.
 
-This environment provides a foundation for hands-on IT support, networking, and system administration practice.
+This environment provides a foundation for hands-on practice in IT support, networking, and system administration.
 
 ## Skills Demonstrated
 
