@@ -12,83 +12,50 @@
 
 > ### Portfolio Note
 >
-> This portfolio highlights hands-on IT support labs designed to demonstrate practical troubleshooting, documentation, ticket management, cloud administration, and networking skills. My projects use **Microsoft Azure**, **osTicket**, **Windows**, and common networking tools to recreate real-world support scenarios and document the technical process from problem identification through resolution.
+> This portfolio highlights hands-on IT support labs designed to demonstrate practical troubleshooting, documentation, ticket management, cloud administration, identity management, and networking skills. My projects use **Microsoft Azure**, **osTicket**, **Windows**, **Active Directory**, and common networking tools to recreate real-world support scenarios and document the technical process from problem identification through resolution.
 >
 > The goal of each lab is to show not only the final result, but also the systems, tools, and troubleshooting steps used along the way.
 
 ---
 
-## IT Support & Cloud Projects
+## Projects
 
-<table>
-  <thead>
-    <tr>
-      <th width="34%">Project</th>
-      <th width="16%">Proof</th>
-      <th width="29%">Purpose</th>
-      <th width="14%">Stack</th>
-      <th width="7%">Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Microsoft Azure</strong><br>&#9702; <a href="./projects/azure-virtual-machines/README.md">Creating Virtual Machines in Azure</a></td>
-      <td>Lab Documentation & Screenshots</td>
-      <td>Builds and configures Azure virtual machines to practice cloud infrastructure deployment, remote access, and basic system administration.</td>
-      <td>Microsoft Azure · Virtual Machines · Windows</td>
-      <td><img src="https://img.shields.io/badge/In%20Progress-blue" alt="In Progress"></td>
-    </tr>
-    <tr>
-      <td><strong>Microsoft Azure</strong><br>&#9702; <a href="./projects/active-directory-infrastructure/README.md">Active Directory Infrastructure</a></td>
-      <td>Lab Documentation & Screenshots</td>
-      <td>Builds the cloud infrastructure needed for a Windows Active Directory environment, including networking, virtual machines, and domain services.</td>
-      <td>Azure · Windows Server · Active Directory · DNS</td>
-      <td><img src="https://img.shields.io/badge/In%20Progress-blue" alt="In Progress"></td>
-    </tr>
-    <tr>
-      <td><strong>Microsoft Azure</strong><br>&#9702; <a href="https://github.com/Robin-Richards88/azure-network-protocols">Observing Network Traffic and Network Security Groups (NSGs)</a></td>
-      <td>Lab Documentation & Screenshots</td>
-      <td>Uses Azure virtual machines and Wireshark to observe network traffic, examine common protocols, and demonstrate how Network Security Groups control traffic between systems.</td>
-      <td>Azure · Wireshark · NSGs · TCP/IP</td>
-      <td><img src="https://img.shields.io/badge/In%20Progress-blue" alt="In Progress"></td>
-    </tr>
-    <tr>
-      <td><strong>osTicket (Help Desk Ticketing System)</strong><br>&#9702; <a href="./projects/osticket-installation/README.md">Prerequisites and Installation</a></td>
-      <td>Lab Documentation & Screenshots</td>
-      <td>Documents the prerequisites and installation process for deploying an osTicket help desk environment.</td>
-      <td>osTicket · Azure · Windows · IIS</td>
-      <td><img src="https://img.shields.io/badge/In%20Progress-blue" alt="In Progress"></td>
-    </tr>
-    <tr>
-      <td><strong>osTicket (Help Desk Ticketing System)</strong><br>&#9702; <a href="./projects/osticket-post-installation/README.md">Post-Installation Configuration</a></td>
-      <td>Lab Documentation & Screenshots</td>
-      <td>Configures the osTicket environment after installation, including help topics, departments, agents, users, permissions, and support workflows.</td>
-      <td>osTicket · Windows · IIS · Help Desk</td>
-      <td><img src="https://img.shields.io/badge/In%20Progress-blue" alt="In Progress"></td>
-    </tr>
-    <tr>
-      <td><strong>osTicket (Help Desk Ticketing System)</strong><br>&#9702; <a href="https://github.com/Robin-Richards88/ticket-lifecycle">Ticket Lifecycle: Conflict & Resolution</a></td>
-      <td>Lab Documentation & Screenshots</td>
-      <td>Demonstrates the help desk ticket lifecycle from intake and assignment through troubleshooting, communication, escalation, and resolution.</td>
-      <td>osTicket · Help Desk · Troubleshooting · Documentation</td>
-      <td><img src="https://img.shields.io/badge/In%20Progress-blue" alt="In Progress"></td>
-    </tr>
-    <tr>
-      <td><strong>Active Directory</strong><br>&#9702; <a href="./projects/ad-deployment-configuration/README.md">AD Deployment and Configuration</a></td>
-      <td>Lab Documentation & Screenshots</td>
-      <td>Deploys and configures an Active Directory domain environment for centralized identity, authentication, and computer management.</td>
-      <td>Active Directory · Windows Server · DNS · Azure</td>
-      <td><img src="https://img.shields.io/badge/In%20Progress-blue" alt="In Progress"></td>
-    </tr>
-    <tr>
-      <td><strong>Active Directory</strong><br>&#9702; <a href="./projects/ad-users-group-policy/README.md">Creating Users and Group Policy Objects for AD</a></td>
-      <td>Lab Documentation & Screenshots</td>
-      <td>Creates and manages domain users and groups while applying Group Policy Objects to enforce centralized Windows settings and security policies.</td>
-      <td>ADUC · Group Policy · Windows Server · PowerShell</td>
-      <td><img src="https://img.shields.io/badge/In%20Progress-blue" alt="In Progress"></td>
-    </tr>
-  </tbody>
-</table>
+**Quick Navigation:** [Microsoft Azure](#microsoft-azure) · [osTicket](#osticket-help-desk-ticketing-system) · [Active Directory](#active-directory)
+
+---
+
+## Microsoft Azure
+
+Cloud infrastructure, virtual machines, networking, and Windows domain services hosted in Microsoft Azure.
+
+| Project | What It Demonstrates | Technologies | Status |
+|---|---|---|---|
+| [**Creating Virtual Machines in Azure**](./projects/azure-virtual-machines/README.md) | Creating and configuring Azure virtual machines for cloud infrastructure, remote access, and system administration. | Azure · Virtual Machines · Windows · Remote Desktop | ![In Progress](https://img.shields.io/badge/In%20Progress-blue) |
+| [**Active Directory Infrastructure**](./projects/active-directory-infrastructure/README.md) | Building the Azure infrastructure required for a Windows Active Directory environment, including networking, servers, and domain services. | Azure · Windows Server · Active Directory · DNS | ![In Progress](https://img.shields.io/badge/In%20Progress-blue) |
+| [**Observing Network Traffic and Network Security Groups (NSGs)**](https://github.com/Robin-Richards88/azure-network-protocols) | Using Azure VMs and Wireshark to inspect network traffic, analyze common protocols, and demonstrate how NSGs control traffic between systems. | Azure · Wireshark · NSGs · TCP/IP | ![In Progress](https://img.shields.io/badge/In%20Progress-blue) |
+
+---
+
+## osTicket — Help Desk Ticketing System
+
+Hands-on help desk labs covering installation, configuration, ticket handling, troubleshooting, escalation, communication, and resolution.
+
+| Project | What It Demonstrates | Technologies | Status |
+|---|---|---|---|
+| [**Prerequisites and Installation**](./projects/osticket-installation/README.md) | Preparing the Windows environment and installing the components required to deploy osTicket. | osTicket · Azure · Windows · IIS | ![In Progress](https://img.shields.io/badge/In%20Progress-blue) |
+| [**Post-Installation Configuration**](./projects/osticket-post-installation/README.md) | Configuring departments, agents, users, permissions, help topics, and support workflows after installation. | osTicket · Windows · IIS · Help Desk | ![In Progress](https://img.shields.io/badge/In%20Progress-blue) |
+| [**Ticket Lifecycle: Conflict & Resolution**](https://github.com/Robin-Richards88/ticket-lifecycle) | Managing tickets from intake and assignment through troubleshooting, communication, escalation, documentation, and resolution. | osTicket · Help Desk · Troubleshooting · Documentation | ![In Progress](https://img.shields.io/badge/In%20Progress-blue) |
+
+---
+
+## Active Directory
+
+Windows domain administration labs focused on centralized identity, user management, authentication, and Group Policy.
+
+| Project | What It Demonstrates | Technologies | Status |
+|---|---|---|---|
+| [**AD Deployment and Configuration**](./projects/ad-deployment-configuration/README.md) | Deploying and configuring a Windows Active Directory domain environment for centralized identity, authentication, and computer management. | Active Directory · Windows Server · DNS · Azure | ![In Progress](https://img.shields.io/badge/In%20Progress-blue) |
+| [**Creating Users and Group Policy Objects for AD**](./projects/ad-users-group-policy/README.md) | Creating and managing domain users and groups while applying Group Policy Objects to enforce centralized Windows settings and security policies. | ADUC · Group Policy · Windows Server · PowerShell | ![In Progress](https://img.shields.io/badge/In%20Progress-blue) |
 
 ---
 
