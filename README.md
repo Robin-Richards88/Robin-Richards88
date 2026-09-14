@@ -30,7 +30,7 @@ Cloud infrastructure, virtual machines, networking, and Windows domain services 
 
 | Project | What It Demonstrates | Technologies | Status |
 |---|---|---|---|
-| [**Creating Virtual Machines in Azure**](./projects/azure-virtual-machines/README.md) | Creating and configuring Azure virtual machines for cloud infrastructure, remote access, and system administration. | Azure · Virtual Machines · Windows · Remote Desktop | ![In Progress](https://img.shields.io/badge/In%20Progress-blue) |
+| [**Creating Virtual Machines in Azure**](./projects/azure-virtual-machines/README.md) | Creating and configuring Azure virtual machines for cloud infrastructure, remote access, and system administration. | Azure · Virtual Machines · Windows · Remote Desktop | ![Complete](https://img.shields.io/badge/Complete-brightgreen) |
 | [**Active Directory Infrastructure**](./projects/active-directory-infrastructure/README.md) | Building the Azure infrastructure required for a Windows Active Directory environment, including networking, servers, and domain services. | Azure · Windows Server · Active Directory · DNS | ![In Progress](https://img.shields.io/badge/In%20Progress-blue) |
 | [**Observing Network Traffic and Network Security Groups (NSGs)**](https://github.com/Robin-Richards88/azure-network-protocols) | Using Azure VMs and Wireshark to inspect network traffic, analyze common protocols, and demonstrate how NSGs control traffic between systems. | Azure · Wireshark · NSGs · TCP/IP | ![In Progress](https://img.shields.io/badge/In%20Progress-blue) |
 
