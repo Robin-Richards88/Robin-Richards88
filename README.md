@@ -32,14 +32,14 @@
   </thead>
   <tbody>
     <tr>
-      <td><strong>Microsoft Azure</strong><br>&#9702; Creating Virtual Machines in Azure</td>
+      <td><strong>Microsoft Azure</strong><br>&#9702; <a href="./projects/azure-virtual-machines/README.md">Creating Virtual Machines in Azure</a></td>
       <td>Lab Documentation & Screenshots</td>
       <td>Builds and configures Azure virtual machines to practice cloud infrastructure deployment, remote access, and basic system administration.</td>
       <td>Microsoft Azure · Virtual Machines · Windows</td>
       <td><img src="https://img.shields.io/badge/In%20Progress-blue" alt="In Progress"></td>
     </tr>
     <tr>
-      <td><strong>Microsoft Azure</strong><br>&#9702; Active Directory Infrastructure</td>
+      <td><strong>Microsoft Azure</strong><br>&#9702; <a href="./projects/active-directory-infrastructure/README.md">Active Directory Infrastructure</a></td>
       <td>Lab Documentation & Screenshots</td>
       <td>Builds the cloud infrastructure needed for a Windows Active Directory environment, including networking, virtual machines, and domain services.</td>
       <td>Azure · Windows Server · Active Directory · DNS</td>
@@ -53,14 +53,14 @@
       <td><img src="https://img.shields.io/badge/In%20Progress-blue" alt="In Progress"></td>
     </tr>
     <tr>
-      <td><strong>osTicket (Help Desk Ticketing System)</strong><br>&#9702; Prerequisites and Installation</td>
+      <td><strong>osTicket (Help Desk Ticketing System)</strong><br>&#9702; <a href="./projects/osticket-installation/README.md">Prerequisites and Installation</a></td>
       <td>Lab Documentation & Screenshots</td>
       <td>Documents the prerequisites and installation process for deploying an osTicket help desk environment.</td>
       <td>osTicket · Azure · Windows · IIS</td>
       <td><img src="https://img.shields.io/badge/In%20Progress-blue" alt="In Progress"></td>
     </tr>
     <tr>
-      <td><strong>osTicket (Help Desk Ticketing System)</strong><br>&#9702; Post-Installation Configuration</td>
+      <td><strong>osTicket (Help Desk Ticketing System)</strong><br>&#9702; <a href="./projects/osticket-post-installation/README.md">Post-Installation Configuration</a></td>
       <td>Lab Documentation & Screenshots</td>
       <td>Configures the osTicket environment after installation, including help topics, departments, agents, users, permissions, and support workflows.</td>
       <td>osTicket · Windows · IIS · Help Desk</td>
@@ -74,14 +74,14 @@
       <td><img src="https://img.shields.io/badge/In%20Progress-blue" alt="In Progress"></td>
     </tr>
     <tr>
-      <td><strong>Active Directory</strong><br>&#9702; AD Deployment and Configuration</td>
+      <td><strong>Active Directory</strong><br>&#9702; <a href="./projects/ad-deployment-configuration/README.md">AD Deployment and Configuration</a></td>
       <td>Lab Documentation & Screenshots</td>
       <td>Deploys and configures an Active Directory domain environment for centralized identity, authentication, and computer management.</td>
       <td>Active Directory · Windows Server · DNS · Azure</td>
       <td><img src="https://img.shields.io/badge/In%20Progress-blue" alt="In Progress"></td>
     </tr>
     <tr>
-      <td><strong>Active Directory</strong><br>&#9702; Creating Users and Group Policy Objects for AD</td>
+      <td><strong>Active Directory</strong><br>&#9702; <a href="./projects/ad-users-group-policy/README.md">Creating Users and Group Policy Objects for AD</a></td>
       <td>Lab Documentation & Screenshots</td>
       <td>Creates and manages domain users and groups while applying Group Policy Objects to enforce centralized Windows settings and security policies.</td>
       <td>ADUC · Group Policy · Windows Server · PowerShell</td>
