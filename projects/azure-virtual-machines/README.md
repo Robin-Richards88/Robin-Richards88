@@ -1,6 +1,6 @@
 # Creating Virtual Machines in Azure
 
-![Status](https://img.shields.io/badge/Status-In%20Progress-blue)
+![Status](https://img.shields.io/badge/Status-Complete-brightgreen)
 
 ![Azure virtual machines project banner](https://github.com/user-attachments/assets/da4722c2-4fef-4904-af58-030e10c90afd)
 
