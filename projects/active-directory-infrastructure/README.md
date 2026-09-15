@@ -1,6 +1,6 @@
 # Active Directory Infrastructure
 
-![Status](https://img.shields.io/badge/Status-In%20Progress-blue)
+![Status](https://img.shields.io/badge/Status-Complete-brightgreen)
 
 [← Back to portfolio](../../README.md)
 
@@ -28,7 +28,7 @@ This project documents the Azure and Windows networking foundation for an Active
 
 ## Deployment and Configuration
 
-The screenshots below are arranged in capture order, with instructions and explanations beneath each image. They document configuration work in progress. Differences in network names and IP addresses are identified where they affect the interpretation of the results.
+The screenshots below are arranged in capture order, with instructions and explanations beneath each image. They document the configuration process. Differences in network names and IP addresses are identified where they affect the interpretation of the results.
 
 ### 1. Review the Azure virtual machines
 
