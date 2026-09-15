@@ -55,7 +55,7 @@ Windows domain administration labs focused on centralized identity, user managem
 | Project | What It Demonstrates | Technologies | Status |
 |---|---|---|---|
 | [**AD Deployment and Configuration**](./projects/ad-deployment-configuration/README.md) | Deploying and configuring a Windows Active Directory domain environment for centralized identity, authentication, and computer management. | Active Directory · Windows Server · DNS · Azure | ![In Progress](https://img.shields.io/badge/In%20Progress-blue) |
-| [**Creating Users and Group Policy Objects for AD**](./projects/ad-users-group-policy/README.md) | Creating and managing domain users and groups while applying Group Policy Objects to enforce centralized Windows settings and security policies. | ADUC · Group Policy · Windows Server · PowerShell | ![In Progress](https://img.shields.io/badge/In%20Progress-blue) |
+| [**Creating Users and Group Policy Objects for AD**](./projects/ad-users-group-policy/README.md) | Creating and managing domain users and groups while applying Group Policy Objects to enforce centralized Windows settings and security policies. | ADUC · Group Policy · Windows Server · PowerShell | ![Complete](https://img.shields.io/badge/Complete-brightgreen) |
 
 ---
 
