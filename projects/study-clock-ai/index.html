@@ -132,7 +132,7 @@ input[type=range]{width:100%;accent-color:var(--clock)}
 .cricket-caveat{font-size:10px;color:#a3a1b5;line-height:1.45;margin:12px 0 8px}
 .cricket-score-link,.cricket-bottom a{font-size:11px;color:var(--clock);text-decoration:none}
 .cricket-score-link:hover,.cricket-bottom a:hover{text-decoration:underline}
-.cricket-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:10px;color:#aaa9bc;margin-top:16px;padding-top:10px;border-top:1px solid #ffffff16}
+.cricket-bottom{display:flex;align-items:center;justify-content:space-between;gap:7px;flex-wrap:wrap;font-size:10px;color:#aaa9bc;margin-top:16px;padding-top:10px;border-top:1px solid #ffffff16}.cricket-bottom [hidden]{display:none!important}
 @media(max-height:700px){.cricket-panel{top:clamp(165px,27dvh,210px);bottom:calc(77px + env(safe-area-inset-bottom));padding-top:12px}.sports-active #clock.compact{padding-top:max(75px,calc(env(safe-area-inset-top) + 50px))}.sports-active #clock.compact .time-number{font-size:min(24vw,11dvh)}}
 @media(min-width:700px){.cricket-panel{top:clamp(205px,29dvh,310px)}.sports-active #clock.compact .time-number{font-size:min(18vw,14dvh)}}
 </style>
@@ -158,10 +158,10 @@ input[type=range]{width:100%;accent-color:var(--clock)}
   <div id="cricketDetail" class="cricket-detail" hidden>
     <div class="cricket-score"><div class="cricket-score-title" id="cricketTitle">Match</div><div class="cricket-score-main" id="cricketScore">—</div><div class="cricket-score-meta" id="cricketMeta">—</div></div>
     <div class="cricket-player-groups"><section class="cricket-players"><h3>🏏 Batting</h3><div id="cricketBatting" class="cricket-player-list">—</div></section><section class="cricket-players"><h3>⚾ Bowling</h3><div id="cricketBowling" class="cricket-player-list">—</div></section></div>
-    <p class="cricket-caveat" id="cricketCaveat">Player names are from the available scorecard; the provider may not identify who is currently on strike or bowling.</p>
+    <p class="cricket-caveat" id="cricketCaveat">Scorecard players may not be the current batter or bowler.</p>
     <a id="cricketSource" class="cricket-score-link" href="https://www.cricbuzz.com/cricket-match/live-scores" target="_blank" rel="noopener noreferrer">Full scorecard ↗</a>
   </div>
-  <div class="cricket-bottom"><span id="cricketUpdated">Auto-refresh · 45 sec</span><a href="https://www.cricbuzz.com/cricket-match/live-scores" target="_blank" rel="noopener noreferrer">Cricket scores ↗</a></div>
+  <div class="cricket-bottom"><span id="cricketUpdated">Auto-refresh · 45 sec</span><span id="cricketSourceName">Source: Cricbuzz</span><a id="cricketAttribution" hidden href="https://sportscore.com/" rel="dofollow">Powered by SportScore</a></div>
 </section>
 <div class="metrics" id="metrics" aria-label="Focus session counters"></div>
 <div class="mode-label" id="modeLabel">SNAKE</div>
@@ -320,62 +320,216 @@ input[type=range]{width:100%;accent-color:var(--clock)}
 
   const snake=new SnakeWorld(),space=new SpaceWorld();
 
-  // The selected match and scorecard are fetched only in Scores mode.
-  // This independent, CORS-enabled endpoint has no API key and returns batting/bowling arrays.
-  const CRICKET_API='https://cricket-api-eosin-ten.vercel.app';
-  let cricketMatches=[],cricketLastFetch=0,cricketLoading=false,cricketDetailsAt=0,cricketFetchingDetail=false;
+
+  // Cricket is online-only. The Cricbuzz scraper is the preferred source.
+  // SportScore is the independent, browser-CORS-friendly fallback.
+  // Never label cached or missing values as live, nor guess active players.
+  const CB_API='https://cricket-api-eosin-ten.vercel.app';
+  const SS_API='https://sportscore.com/api/widget';
+  let cricketMatches=[],cricketLastFetch=0,cricketLoading=false,cricketDetailsAt=0;
+  let cricketFetchingDetail=false,cricketProvider='',cricketDownUntil=0,cricketDetailToken=0;
   const cricketText=(v,fallback='—')=>v===null||v===undefined||v===''?fallback:String(v);
+  const cricketStatus=v=>String(v||'').toLowerCase();
+  const cricketLive=m=>/live|in.progress|innings|stumps/i.test(String(m.status||''));
+  const cleanText=v=>typeof v==='string'?v.trim():'';
   function cricketFeedback(message){$('cricketFeedback').textContent=message}
-  function cricketOption(match){const teams=Array.isArray(match.teams)?match.teams.filter(Boolean).join(' vs '):'';return cricketText(teams||match.title||('Match '+match.id))+' · '+cricketText(match.status,'Status unknown')}
-  async function cricketGet(endpoint){const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),14000);try{const res=await fetch(CRICKET_API+endpoint,{mode:'cors',cache:'no-store',signal:controller.signal});if(!res.ok)throw Error('Cricket service HTTP '+res.status);const result=await res.json();if(result.success===false)throw Error(result.message||'Cricket service unavailable');return result.data||result}finally{clearTimeout(timeout)}}
-  async function loadCricketMatches(force=false){
-    if(state.mode!=='sports'||cricketLoading||(!force&&Date.now()-cricketLastFetch<90000&&cricketMatches.length)){if(state.mode==='sports'&&state.cricketId)loadCricketDetail(false);return}
-    cricketLoading=true;cricketFeedback('Updating match list…');
+  function cricketOption(match){return match.title+' · '+cricketText(match.status,'Status pending')}
+  function cricketSourceUI(provider){
+    const backup=provider==='sportscore';
+    $('cricketAttribution').hidden=!backup;
+    $('cricketSource').href=backup?'https://sportscore.com/cricket/':'https://www.cricbuzz.com/cricket-match/live-scores';
+    $('cricketSource').textContent=backup?'View cricket scores ↗':'Full scorecard ↗';
+    $('cricketSourceName').textContent=backup?'Backup: SportScore':'Source: Cricbuzz';
+  }
+  async function cricketGet(url,timeoutMs=8500){
+    const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),timeoutMs);
     try{
-      const data=await cricketGet('/live-matches');
-      const matches=Array.isArray(data.matches)?data.matches:[];
-      cricketMatches=matches.filter(m=>m&&/^\d+$/.test(String(m.id)));
-      cricketMatches.sort((a,b)=>(/live|in progress/i.test(b.status)?1:0)-(/live|in progress/i.test(a.status)?1:0));
-      cricketLastFetch=Date.now();
-      const selector=$('cricketMatches');selector.replaceChildren();
-      if(!cricketMatches.length){selector.add(new Option('No matches currently listed',''));$('cricketDetail').hidden=true;cricketFeedback('No cricket matches are listed right now. Use ↻ to check again.');return}
-      selector.add(new Option('Choose a match…',''));
-      cricketMatches.forEach(m=>selector.add(new Option(cricketOption(m),String(m.id))));
-      if(!cricketMatches.some(m=>String(m.id)===String(state.cricketId))){state.cricketId=String((cricketMatches.find(m=>/live|in progress/i.test(m.status))||cricketMatches[0]).id);saveSettings()}
-      selector.value=state.cricketId;
-      cricketFeedback(cricketMatches.length+' matches listed · choose one to follow');
-      await loadCricketDetail(true);
-    }catch(error){cricketFeedback('Live scores unavailable right now. Tap ↻ to retry, or open cricket scores below.');if(!cricketMatches.length){$('cricketMatches').replaceChildren(new Option('Scores unavailable',''));$('cricketDetail').hidden=true}}
-    finally{cricketLoading=false}
+      const res=await fetch(url,{mode:'cors',cache:'no-store',signal:controller.signal});
+      if(!res.ok)throw new Error('HTTP '+res.status);
+      const data=await res.json();
+      if(data&&data.success===false)throw new Error(data.message||'Provider error');
+      if(!data||typeof data!=='object')throw new Error('Unexpected response');
+      return data;
+    }finally{clearTimeout(timeout)}
+  }
+  async function loadCricbuzzMatches(){
+    const raw=await cricketGet(CB_API+'/live-matches',6500);
+    const d=raw.data||raw;
+    if(!Array.isArray(d.matches))throw new Error('Invalid cricket match list');
+    if(d.matches.length===0)throw new Error('Cricket source returned no matches');
+    return d.matches.filter(m=>m&&/^\d+$/.test(String(m.id))).map(m=>{
+      const teams=Array.isArray(m.teams)?m.teams.filter(Boolean).join(' vs '):'';
+      return {key:'cb:'+m.id,provider:'cricbuzz',id:String(m.id),
+        title:cricketText(teams||m.title,'Match '+m.id),
+        status:cricketText(m.status,'Scheduled'),scoreMain:'',scoreMeta:'',
+        batting:[],bowling:[],raw:m};
+    });
+  }
+  async function loadSportScoreMatches(){
+    const raw=await cricketGet(SS_API+'/matches/?sport=cricket&limit=50',10000);
+    if(!Array.isArray(raw.matches))throw new Error('Invalid backup feed');
+    return raw.matches.filter(m=>m&&typeof m.slug==='string'&&m.slug.length>0).map(m=>{
+      const home=cricketText(m.home,'Home'),away=cricketText(m.away,'Away');
+      const a=cricketText(m.home_score,''),b=cricketText(m.away_score,'');
+      const score=a!==''||b!==''?home+' '+(a||'—')+' · '+away+' '+(b||'—'):'Score not published';
+      return {key:'ss:'+m.slug,provider:'sportscore',id:m.slug,
+        title:home+' vs '+away,status:cricketText(m.status_text||m.status,'Scheduled'),
+        scoreMain:score,scoreMeta:cricketText(m.competition,''),
+        batting:[],bowling:[],raw:m};
+    });
   }
   function cricketRenderPlayers(id,items,type){
     const root=$(id);root.replaceChildren();
-    if(!Array.isArray(items)||!items.length){const note=document.createElement('div');note.className='cricket-player-stat';note.textContent='No player data yet';root.append(note);return}
-    for(const p of items.slice(0,2)){if(!p||typeof p!=='object')continue;const item=document.createElement('div');item.className='cricket-player';const name=document.createElement('div');name.className='cricket-player-name';name.textContent=cricketText(p.name,'Player');const stat=document.createElement('div');stat.className='cricket-player-stat';stat.textContent=type==='bat'?cricketText(p.runs,'0')+' runs · '+cricketText(p.balls,'0')+' balls':cricketText(p.overs,'0')+' ov · '+cricketText(p.wickets,'0')+' wkts';item.append(name,stat);root.append(item)}
+    if(!Array.isArray(items)||items.length===0){
+      const note=document.createElement('div');note.className='cricket-player-stat';
+      note.textContent='Not provided by this source';root.append(note);return;
+    }
+    for(const p of items.slice(0,2)){
+      if(!p||typeof p!=='object')continue;
+      const item=document.createElement('div');item.className='cricket-player';
+      const name=document.createElement('div');name.className='cricket-player-name';
+      name.textContent=cricketText(p.name||p.player_name,'Player');
+      const stat=document.createElement('div');stat.className='cricket-player-stat';
+      stat.textContent=type==='bat'
+        ?cricketText(p.runs,'—')+' runs · '+cricketText(p.balls,'—')+' balls'
+        :cricketText(p.overs,'—')+' ov · '+cricketText(p.wickets,'—')+' wkts';
+      item.append(name,stat);root.append(item);
+    }
+  }
+  function showCricket(m){
+    if(!m)return;
+    $('cricketDetail').hidden=false;
+    $('cricketTitle').textContent=m.title;
+    $('cricketScore').textContent=cricketText(m.scoreMain,'Score pending');
+    $('cricketMeta').textContent=[m.scoreMeta,m.status].filter(Boolean).join(' · ');
+    cricketRenderPlayers('cricketBatting',m.batting,'bat');
+    cricketRenderPlayers('cricketBowling',m.bowling,'bowl');
+    cricketSourceUI(m.provider);
+    if(m.provider==='cricbuzz')$('cricketSource').href='https://www.cricbuzz.com/live-cricket-scorecard/'+encodeURIComponent(m.id);
+    $('cricketCaveat').textContent=m.provider==='sportscore'
+      ?'Backup scores may have fewer details. Batting and bowling names appear only if supplied.'
+      :'Batting and bowling are from the scorecard, not necessarily the current striker or bowler.';
+  }
+  async function loadCricketMatches(force=false){
+    if(state.mode!=='sports'||cricketLoading)return;
+    if(!force&&cricketMatches.length&&Date.now()-cricketLastFetch<160000){
+      await loadCricketDetail(false);return;
+    }
+    cricketLoading=true;cricketFeedback('Checking live cricket…');
+    try{
+      let matches=[],source='',failure='';
+      if(force||Date.now()>cricketDownUntil){
+        try{matches=await loadCricbuzzMatches();if(!matches.length)throw new Error('No matches');source='cricbuzz';cricketDownUntil=0}
+        catch(e){failure=e.message;cricketDownUntil=Date.now()+10*60*1000}
+      }
+      if(!matches.length){
+        cricketFeedback('Primary feed unavailable · checking backup…');
+        try{matches=await loadSportScoreMatches();source='sportscore'}
+        catch(e){throw new Error('Both sources unavailable: '+(failure||'primary offline')+'; '+e.message)}
+      }
+      // Retain any selection that exists in the new source; otherwise follow a live match.
+      cricketMatches=matches;
+      cricketProvider=source;
+      cricketLastFetch=Date.now();
+      const selector=$('cricketMatches');selector.replaceChildren();
+      if(!matches.length){
+        selector.add(new Option('No cricket matches listed',''));
+        $('cricketDetail').hidden=true;
+        cricketFeedback('No matches listed by the '+(source==='sportscore'?'backup':'primary')+' feed. Check again later.');
+        cricketSourceUI(source);return;
+      }
+      matches.sort((a,b)=>Number(cricketLive(b))-Number(cricketLive(a)));
+      selector.add(new Option('Choose a match…',''));
+      matches.forEach(m=>selector.add(new Option(cricketOption(m),m.key)));
+      const saved=state.cricketId||'';
+      if(!matches.some(m=>m.key===saved)){
+        state.cricketId=(matches.find(cricketLive)||matches[0]).key;
+        saveSettings();
+      }
+      selector.value=state.cricketId;
+      cricketSourceUI(source);
+      cricketFeedback(source==='sportscore'?'Backup feed active · '+matches.length+' matches':'Live feed active · '+matches.length+' matches');
+      cricketDetailsAt=0;
+      const picked=matches.find(m=>m.key===state.cricketId);
+      showCricket(picked);
+      await loadCricketDetail(true);
+    }catch(error){
+      // Keep previous scores, visibly marked as stale; never substitute fabricated scores.
+      $('cricketUpdated').textContent='Offline · retry ↻';
+      cricketFeedback('Both cricket feeds unavailable. Try ↻ or open cricket scores below.');
+      if(!cricketMatches.length){
+        $('cricketMatches').replaceChildren(new Option('Sources unavailable',''));
+        $('cricketDetail').hidden=true;
+      }else{
+        const previous=cricketMatches.find(m=>m.key===state.cricketId);
+        if(previous){showCricket(previous);$('cricketMeta').textContent+=' · Last available (not live)'}
+      }
+    }finally{cricketLoading=false}
   }
   async function loadCricketDetail(force=false){
-    const id=String(state.cricketId||'');if(state.mode!=='sports'||!/^\d+$/.test(id)||cricketFetchingDetail||(!force&&Date.now()-cricketDetailsAt<40000))return;
+    const key=String(state.cricketId||'');
+    const m=cricketMatches.find(m=>m.key===key);
+    if(state.mode!=='sports'||!m||cricketFetchingDetail||(!force&&Date.now()-cricketDetailsAt<40000))return;
     cricketFetchingDetail=true;
+    const token=++cricketDetailToken;
     try{
-      const d=await cricketGet('/matches/'+encodeURIComponent(id)+'/live');
-      if(id!==String(state.cricketId))return;
-      $('cricketDetail').hidden=false;
-      $('cricketTitle').textContent=cricketText(d.title,'Cricket match');
-      const sc=d.current_score;
-      $('cricketScore').textContent=sc?cricketText(sc.team,'')+' '+cricketText(sc.runs,'0')+'/'+cricketText(sc.wickets,'0'):'Score pending';
-      $('cricketMeta').textContent=[sc&&sc.overs!==undefined?cricketText(sc.overs)+' overs':'',d.run_rate!==null&&d.run_rate!==undefined?'RR '+d.run_rate:'',cricketText(d.status,'')].filter(Boolean).join(' · ');
-      cricketRenderPlayers('cricketBatting',d.batting,'bat');cricketRenderPlayers('cricketBowling',d.bowling,'bowl');
-      const full='https://www.cricbuzz.com/live-cricket-scorecard/'+encodeURIComponent(id);
-      $('cricketSource').href=full;
-      const updated=new Date();$('cricketUpdated').textContent='Checked '+updated.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+' · refreshes every 45 sec';
-      cricketFeedback('Scorecard updated');
-      cricketDetailsAt=Date.now();
-    }catch(error){cricketFeedback('Could not update this match. Showing last available information if any.');$('cricketUpdated').textContent='Update unavailable · tap ↻'}
-    finally{cricketFetchingDetail=false}
+      if(m.provider==='cricbuzz'){
+        const raw=await cricketGet(CB_API+'/matches/'+encodeURIComponent(m.id)+'/live',8500);
+        const d=raw.data||raw,sc=d.current_score;
+        m.title=cricketText(d.title,m.title);
+        m.scoreMain=sc?cricketText(sc.team,'')+' '+cricketText(sc.runs,'0')+'/'+cricketText(sc.wickets,'0'):'Score pending';
+        m.scoreMeta=[sc&&sc.overs!==undefined?sc.overs+' overs':'',d.run_rate!=null?'RR '+d.run_rate:''].filter(Boolean).join(' · ');
+        m.status=cricketText(d.status,m.status);
+        m.batting=Array.isArray(d.batting)?d.batting:[];
+        m.bowling=Array.isArray(d.bowling)?d.bowling:[];
+      }else{
+        // List scores are independently useful even when detail is absent.
+        const raw=await cricketGet(SS_API+'/match/?sport=cricket&slug='+encodeURIComponent(m.id),9000);
+        const d=raw.match||raw;
+        if(d&&typeof d==='object'){
+          const home=cricketText(d.home,m.raw.home),away=cricketText(d.away,m.raw.away);
+          const a=cricketText(d.home_score,''),b=cricketText(d.away_score,'');
+          if(a!==''||b!=='')m.scoreMain=home+' '+(a||'—')+' · '+away+' '+(b||'—');
+          m.status=cricketText(d.status_text||d.status,m.status);
+          m.scoreMeta=cricketText(d.competition,m.scoreMeta);
+          const sc=d.scorecard&&typeof d.scorecard==='object'?d.scorecard:d;
+          m.batting=Array.isArray(sc.batting)?sc.batting:[];
+          m.bowling=Array.isArray(sc.bowling)?sc.bowling:[];
+        }
+      }
+      if(token===cricketDetailToken&&state.cricketId===key){
+        showCricket(m);
+        cricketDetailsAt=Date.now();
+        $('cricketUpdated').textContent='Checked '+new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+' · 45s refresh';
+        cricketFeedback(m.provider==='sportscore'?'Backup feed active':'Scorecard updated');
+      }
+    }catch(error){
+      if(state.cricketId===key){
+        showCricket(m);
+        $('cricketUpdated').textContent='Score detail unavailable · tap ↻';
+        cricketFeedback(m.provider==='sportscore'
+          ?'Backup match scores shown; player details may be unavailable.'
+          :'Match detail unavailable · tap ↻ to retry.');
+      }
+    }finally{cricketFetchingDetail=false}
   }
-  $('cricketMatches').addEventListener('change',event=>{state.cricketId=event.target.value;cricketDetailsAt=0;$('cricketDetail').hidden=true;saveSettings();loadCricketDetail(true)});
-  $('cricketRefresh').addEventListener('click',()=>{cricketLastFetch=0;cricketDetailsAt=0;loadCricketMatches(true)});
-  setInterval(()=>{if(!document.hidden&&state.mode==='sports'){if(Date.now()-cricketLastFetch>=180000)loadCricketMatches(true);else loadCricketDetail(false)}},45000);
+  $('cricketMatches').addEventListener('change',event=>{
+    state.cricketId=event.target.value;
+    cricketDetailsAt=0;cricketDetailToken++;
+    saveSettings();
+    const m=cricketMatches.find(m=>m.key===state.cricketId);
+    if(m){showCricket(m);loadCricketDetail(true)}
+    else $('cricketDetail').hidden=true;
+  });
+  $('cricketRefresh').addEventListener('click',()=>{
+    cricketLastFetch=0;cricketDetailsAt=0;loadCricketMatches(true);
+  });
+  setInterval(()=>{
+    if(!document.hidden&&state.mode==='sports'){
+      if(Date.now()-cricketLastFetch>=180000)loadCricketMatches(false);
+      else loadCricketDetail(false);
+    }
+  },45000);
 
   function resize(){const b=$('app').getBoundingClientRect();if(!b.width||!b.height)return;const prevW=W,prevH=H;W=b.width;H=b.height;dpr=Math.min(2,window.devicePixelRatio||1);canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);canvas.style.width=W+'px';canvas.style.height=H+'px';if(Math.abs(W-prevW)>2||Math.abs(H-prevH)>2){const r=rects();snake.setup(r.snake.w,r.snake.h);space.setup(r.space.w,r.space.h)}}
   function changeMode(mode){if(!['snake','space','sports'].includes(mode))return;if(state.mode!==mode){state.mode=mode;const r=rects();if(mode==='snake')snake.setup(r.snake.w,r.snake.h);if(mode==='space')space.setup(r.space.w,r.space.h)}updateUI();saveSettings()}
