@@ -7,11 +7,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="StudyClock AI">
-<meta name="description" content="A quiet study clock with one autonomous Snake and a gentle Space Impact-inspired journey.">
+<meta name="description" content="An elegant focus clock with ambient games and selectable live cricket scoreboards.">
 
 
 
-<title>StudyClock AI — Autonomous Ambient Clock</title>
+<title>StudyClock AI — Focus Clock & Live Cricket</title>
 <style>
 :root{color-scheme:dark;--bg:#050507;--clock:#9794d0;--accent:#777dff;--snakeA:#76e1bd;--snakeB:#f8b17b;--shipA:#74bdfd;--shipB:#fe9b9e;--glow:0.73;--label:#d4d5e5}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -92,6 +92,49 @@ input[type=range]{width:100%;accent-color:var(--clock)}
 @media(min-width:700px){.time-number{font-size:min(72vh,42vw)}#clock.compact .time-number{font-size:min(22vh,17vw)}.controls{gap:9px}.tab{font-size:13px}.topbar{left:33px;right:33px;top:25px}.mode-label{font-size:12px}}
 @media(max-height:610px){#clock:not(.compact) .time-number{font-size:min(78vw,35dvh)}#clock:not(.compact) #period{margin:11px 0;font-size:19px}.metrics{bottom:103px}.mode-label{bottom:75px}}
 @media(prefers-reduced-motion:reduce){.settings{transition:none}.tab{transition:none}}
+
+/* Focus-first clock polish */
+.brand-sub{opacity:.65;letter-spacing:.19em}
+.brand-title{font-size:11px;letter-spacing:.17em}
+.time-number{letter-spacing:-.087em}
+#period{letter-spacing:.38em;padding-left:.38em}
+.controls{background:rgba(17,17,25,.79);border:1px solid rgba(255,255,255,.14);box-shadow:0 15px 55px #0009;backdrop-filter:blur(25px);-webkit-backdrop-filter:blur(25px);max-width:calc(100% - 16px);padding:4px 5px;gap:1px}
+.tab{font-size:11px;white-space:nowrap;padding:11px clamp(7px,2.6vw,14px)}
+.iconbtn{width:38px;height:38px;min-width:38px}
+#status{display:none}
+.sports-active #shades{background:radial-gradient(ellipse at 50% 21%,color-mix(in srgb,var(--accent) 13%,transparent),transparent 60%)}
+.sports-active #clock.compact{padding-top:max(82px,calc(env(safe-area-inset-top) + 62px))}
+.sports-active #clock.compact .time-number{font-size:min(29vw,13.8dvh)}
+.sports-active #clock.compact #compactColon{font-size:min(28vw,12dvh)}
+.sports-active #clock.compact #compactPeriod{font-size:12px}
+.cricket-panel[hidden]{display:none!important}
+.cricket-panel{position:absolute;z-index:5;top:clamp(190px,29dvh,290px);bottom:calc(85px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(560px,calc(100% - 28px));overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;border:1px solid rgba(255,255,255,.12);border-radius:23px;padding:18px 17px 14px;background:linear-gradient(155deg,rgba(27,27,40,.92),rgba(11,11,20,.86));backdrop-filter:blur(25px);-webkit-backdrop-filter:blur(25px);box-shadow:0 18px 55px #0007}
+.cricket-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.cricket-head h2{font-size:20px;font-weight:560;letter-spacing:-.045em;margin:5px 0 0}
+.cricket-kicker{font-size:9px;font-weight:700;letter-spacing:.22em;color:var(--clock)}
+.cricket-kicker i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#7ae1a8;margin-right:6px;box-shadow:0 0 9px #7ae1a8}
+#cricketRefresh{border:1px solid #ffffff35;color:#fff;background:#ffffff12;border-radius:50%;font-size:25px;min-height:39px;min-width:39px;line-height:1}
+.cricket-select-label{display:block;color:#a8a6bb;font-size:9px;letter-spacing:.14em;margin-bottom:7px;font-weight:600}
+.cricket-select{width:100%;background:#1c1c2b;color:#faf9ff;border:1px solid #ffffff28;border-radius:12px;padding:11px 10px;font-size:12px;min-height:43px;overflow:hidden;text-overflow:ellipsis}
+.cricket-feedback{margin:10px 0;color:#aaa8bf;font-size:11px;line-height:1.5}
+.cricket-detail{margin-top:13px}
+.cricket-score{border-radius:16px;background:linear-gradient(120deg,color-mix(in srgb,var(--accent) 19%,#181723),#181723);padding:15px 15px 12px;border:1px solid #ffffff12}
+.cricket-score-title{font-size:11px;color:#d1cfdf;line-height:1.45}
+.cricket-score-main{font-size:clamp(27px,7.3vw,37px);color:#fff;font-weight:580;letter-spacing:-.04em;margin:7px 0 4px;font-variant-numeric:tabular-nums}
+.cricket-score-meta{font-size:11px;color:#c7c4d7;line-height:1.45}
+.cricket-player-groups{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.cricket-players{background:#ffffff08;border:1px solid #ffffff13;border-radius:13px;padding:11px 9px;min-width:0}
+.cricket-players h3{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--clock);margin:0 0 9px}
+.cricket-player{padding:7px 0;border-top:1px solid #ffffff12}
+.cricket-player:first-child{border-top:0;padding-top:0}
+.cricket-player-name{font-size:11px;line-height:1.3;font-weight:560;color:#f6f5fb;overflow-wrap:anywhere}
+.cricket-player-stat{font-size:10px;color:#9e9bad;line-height:1.5;margin-top:3px}
+.cricket-caveat{font-size:10px;color:#a3a1b5;line-height:1.45;margin:12px 0 8px}
+.cricket-score-link,.cricket-bottom a{font-size:11px;color:var(--clock);text-decoration:none}
+.cricket-score-link:hover,.cricket-bottom a:hover{text-decoration:underline}
+.cricket-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:10px;color:#aaa9bc;margin-top:16px;padding-top:10px;border-top:1px solid #ffffff16}
+@media(max-height:700px){.cricket-panel{top:clamp(165px,27dvh,210px);bottom:calc(77px + env(safe-area-inset-bottom));padding-top:12px}.sports-active #clock.compact{padding-top:max(75px,calc(env(safe-area-inset-top) + 50px))}.sports-active #clock.compact .time-number{font-size:min(24vw,11dvh)}}
+@media(min-width:700px){.cricket-panel{top:clamp(205px,29dvh,310px)}.sports-active #clock.compact .time-number{font-size:min(18vw,14dvh)}}
 </style>
 </head>
 <body>
@@ -99,20 +142,33 @@ input[type=range]{width:100%;accent-color:var(--clock)}
 <canvas id="ambient" aria-label="Autonomous background game: a self-playing game"></canvas>
 <div id="shades"></div>
 <header class="topbar">
-  <div class="brand"><span class="spark">✧</span><div><div class="brand-title">STUDYCLOCK <span style="color:var(--clock)">AI</span></div><div class="brand-sub">QUIET FOCUS AMBIENCE</div></div></div>
+  <div class="brand"><span class="spark">✧</span><div><div class="brand-title">STUDYCLOCK <span style="color:var(--clock)">AI</span></div><div class="brand-sub">FOCUS MODE</div></div></div>
   <span class="grow"></span><div class="date-pill" id="date">28 OCT · WED</div>
 </header>
-<div id="status" aria-live="polite">LIVE SIMULATION · NO REPLAY</div>
+<div id="status" aria-live="polite"></div>
 <main id="clock" aria-label="Current local time">
  <div id="compactRow"><span class="time-number" id="hour">12</span><span id="compactColon">:</span><span class="time-number" id="minute">57</span><span id="compactPeriod">PM</span></div>
  <div id="period">PM</div>
 </main>
+<section id="cricketPanel" class="cricket-panel" aria-label="Cricket live scores" hidden>
+  <div class="cricket-head"><div><span class="cricket-kicker"><i></i> CRICKET</span><h2>Match centre</h2></div><button id="cricketRefresh" type="button" title="Refresh cricket scores" aria-label="Refresh cricket scores">↻</button></div>
+  <label for="cricketMatches" class="cricket-select-label">SELECT A MATCH</label>
+  <select id="cricketMatches" class="cricket-select" aria-label="Choose cricket match"><option value="">Loading matches…</option></select>
+  <p class="cricket-feedback" id="cricketFeedback" role="status" aria-live="polite">Checking for live cricket…</p>
+  <div id="cricketDetail" class="cricket-detail" hidden>
+    <div class="cricket-score"><div class="cricket-score-title" id="cricketTitle">Match</div><div class="cricket-score-main" id="cricketScore">—</div><div class="cricket-score-meta" id="cricketMeta">—</div></div>
+    <div class="cricket-player-groups"><section class="cricket-players"><h3>🏏 Batting</h3><div id="cricketBatting" class="cricket-player-list">—</div></section><section class="cricket-players"><h3>⚾ Bowling</h3><div id="cricketBowling" class="cricket-player-list">—</div></section></div>
+    <p class="cricket-caveat" id="cricketCaveat">Player names are from the available scorecard; the provider may not identify who is currently on strike or bowling.</p>
+    <a id="cricketSource" class="cricket-score-link" href="https://www.cricbuzz.com/cricket-match/live-scores" target="_blank" rel="noopener noreferrer">Full scorecard ↗</a>
+  </div>
+  <div class="cricket-bottom"><span id="cricketUpdated">Auto-refresh · 45 sec</span><a href="https://www.cricbuzz.com/cricket-match/live-scores" target="_blank" rel="noopener noreferrer">Cricket scores ↗</a></div>
+</section>
 <div class="metrics" id="metrics" aria-label="Focus session counters"></div>
-<div class="mode-label" id="modeLabel">SNAKE · AUTOPILOT</div>
+<div class="mode-label" id="modeLabel">SNAKE</div>
 <nav class="controls" aria-label="Background game choice and options">
  <button type="button" class="tab" id="snakeTab" data-mode="snake" aria-pressed="true">🐍 Snake</button>
  <button type="button" class="tab" id="spaceTab" data-mode="space" aria-pressed="false">🚀 Space</button>
- <button type="button" class="tab" id="bothTab" data-mode="both" aria-pressed="false">Both</button>
+ <button type="button" class="tab" id="sportsTab" data-mode="sports" aria-pressed="false">🏏 Scores</button>
  <span class="divline"></span>
  <button type="button" class="iconbtn" id="restartBtn" title="Restart focus counters" aria-label="Restart focus counters"><svg viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2.5 7M3 4v7h7"/></svg></button>
  <button type="button" class="iconbtn" id="settingsBtn" title="Customize display colors and settings" aria-label="Customize display colors and settings"><svg viewBox="0 0 24 24"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="4"/></svg></button>
@@ -145,7 +201,7 @@ input[type=range]{width:100%;accent-color:var(--clock)}
  <button class="wide-btn primary" type="button" id="doneBtn">Back to clock</button>
  <button class="wide-btn" type="button" id="restartSettingsBtn">↻ Restart focus session and counters</button>
  <button class="wide-btn" type="button" id="resetBtn">Restore default colors & settings</button>
- <div class="settings-foot">Both scenes are live simulations, never recorded loops. One snake searches for food and resets its length at one quarter of the board, while its food counter persists. In space, a solitary ship cruises, gathers glowing atoms, dodges danger, and occasionally fires on asteroids and alien ships. Sound is always off.</div>
+ <div class="settings-foot">Two optional games run themselves. Sports mode loads match data online. The food counter persists. In space, a solitary ship cruises, gathers glowing atoms, dodges danger, and occasionally fires on asteroids and alien ships. Sound is always off.</div>
 </aside>
 </div>
 <script>
@@ -153,7 +209,7 @@ input[type=range]{width:100%;accent-color:var(--clock)}
   'use strict';
   const $ = id => document.getElementById(id);
   const defaults = {
-    mode:'snake',theme:'lilac',layout:'stacked',format:'12',brightness:73,
+    mode:'snake',cricketId:'',theme:'lilac',layout:'stacked',format:'12',brightness:73,
     speed:1,showHud:true,wake:false,
     colors:{bg:'#050507',clock:'#9794d0',accent:'#777dff',snakeA:'#76e1bd',snakeB:'#ffcf80',shipA:'#74bdfd',shipB:'#fe9b9e',resource:'#98f6e5'}
   };
@@ -168,7 +224,7 @@ input[type=range]{width:100%;accent-color:var(--clock)}
   const clone = x => JSON.parse(JSON.stringify(x));
   let state=clone(defaults);
   try {const s=JSON.parse(localStorage.getItem('studyClockAI.settings')||'null');if(s)state={...defaults,...s,colors:{...defaults.colors,...s.colors}};}catch(e){}
-  if(!['snake','space','both'].includes(state.mode))state.mode='snake';
+  if(!['snake','space','sports'].includes(state.mode))state.mode='snake';
   const statsDefault={eaten:0,resources:0,asteroids:0,aliens:0,seconds:0};
   let stats={...statsDefault};
   try{const stored=JSON.parse(localStorage.getItem('studyClockAI.focusStats.v2')||'null');if(stored)for(const key of Object.keys(statsDefault))if(Number.isFinite(stored[key])&&stored[key]>=0)stats[key]=stored[key];}catch(e){}
@@ -180,14 +236,14 @@ input[type=range]{width:100%;accent-color:var(--clock)}
   if(!ctx){$('status').textContent='CANVAS NOT SUPPORTED';return;}
   let W=0,H=0,dpr=1,last=0,secondsToSave=0,scoreTimer=0,raf=0;
   const rect=(x,y,w,h,r=0)=>{r=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()};
-  const rects=()=>state.mode==='both'?{snake:{x:0,y:0,w:W,h:H*.51},space:{x:0,y:H*.51,w:W,h:H*.49}}:{snake:{x:0,y:0,w:W,h:H},space:{x:0,y:0,w:W,h:H}};
+  const rects=()=>({snake:{x:0,y:0,w:W,h:H},space:{x:0,y:0,w:W,h:H}});
 
   function applyColors(){for(const [k,v] of Object.entries(state.colors))document.documentElement.style.setProperty('--'+k,v);document.documentElement.style.setProperty('--glow',String(state.brightness/100));$('themeMeta').content=state.colors.bg;document.querySelectorAll('[data-color]').forEach(x=>x.value=state.colors[x.dataset.color]);}
   function updateClock(){const date=new Date(),h=date.getHours();$('hour').textContent=String(state.format==='12'?(h%12||12):h).padStart(2,'0');$('minute').textContent=String(date.getMinutes()).padStart(2,'0');$('period').textContent=h>=12?'PM':'AM';$('compactPeriod').textContent=state.format==='12'?(h>=12?'PM':'AM'):'';$('date').textContent=String(date.getDate()).padStart(2,'0')+' '+date.toLocaleString('en-US',{month:'short'}).toUpperCase()+' · '+date.toLocaleString('en-US',{weekday:'short'}).toUpperCase();$('period').style.visibility=state.format==='12'?'visible':'hidden'}
   function makeThemes(){const root=$('themeGrid');root.replaceChildren();for(const t of themes){const b=document.createElement('button');b.className='theme';b.type='button';b.dataset.theme=t.id;b.setAttribute('aria-pressed',String(t.id===state.theme));b.innerHTML='<span class="theme-dots">'+[t.c.clock,t.c.snakeA,t.c.resource].map(c=>'<i style="background:'+c+'"></i>').join('')+'</span><span class="theme-name">'+t.name+'</span>';b.addEventListener('click',()=>{state.theme=t.id;state.colors={...t.c};updateUI();saveSettings()});root.append(b)}}
-  function updateUI(){applyColors();$('clock').classList.toggle('compact',state.layout==='compact');$('layout').value=state.layout;$('format').value=state.format;$('brightness').value=state.brightness;$('brightnessValue').textContent=state.brightness+'%';$('speed').value=state.speed;$('speedValue').textContent=Number(state.speed).toFixed(1)+'×';$('showHud').checked=state.showHud;$('wake').checked=state.wake;for(const id of ['date','metrics','modeLabel','status'])$(id).style.display=state.showHud?'':'none';$('modeLabel').textContent=state.mode==='snake'?'SNAKE · AUTOPILOT':state.mode==='space'?'SPACE IMPACT · AUTOPILOT':'TWO WORLDS · AUTOPILOT';for(const b of document.querySelectorAll('.tab'))b.setAttribute('aria-pressed',String(b.dataset.mode===state.mode));for(const b of document.querySelectorAll('.theme'))b.setAttribute('aria-pressed',String(b.dataset.theme===state.theme));updateClock();updateScores()}
+  function updateUI(){applyColors();$('clock').classList.toggle('compact',state.mode==='sports'||state.layout==='compact');$('app').classList.toggle('sports-active',state.mode==='sports');$('cricketPanel').hidden=state.mode!=='sports';$('layout').value=state.layout;$('format').value=state.format;$('brightness').value=state.brightness;$('brightnessValue').textContent=state.brightness+'%';$('speed').value=state.speed;$('speedValue').textContent=Number(state.speed).toFixed(1)+'×';$('showHud').checked=state.showHud;$('wake').checked=state.wake;for(const id of ['date','metrics','modeLabel','status'])$(id).style.display=state.showHud?'':'none';$('metrics').style.display=state.mode==='sports'?'none':(state.showHud?'':'none');$('modeLabel').style.display=state.mode==='sports'?'none':(state.showHud?'':'none');$('status').style.display='none';$('modeLabel').textContent=state.mode==='snake'?'SNAKE · AUTOPILOT':'SPACE · AUTOPILOT';for(const b of document.querySelectorAll('.tab'))b.setAttribute('aria-pressed',String(b.dataset.mode===state.mode));for(const b of document.querySelectorAll('.theme'))b.setAttribute('aria-pressed',String(b.dataset.theme===state.theme));updateClock();updateScores();if(state.mode==='sports')loadCricketMatches(false)}
   function formatSecs(sec){const n=Math.floor(sec),h=Math.floor(n/3600),m=Math.floor(n%3600/60),s=n%60;return h>0?`${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`:`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
-  function updateScores(){let h='';if(state.mode!=='space')h+=`<span class="metric" style="color:${state.colors.snakeA}">🍎 EATEN <b>${stats.eaten}</b></span>`;if(state.mode!=='snake')h+=`<span class="metric" style="color:${state.colors.resource}">✧ ATOMS <b>${stats.resources}</b></span><span class="metric" style="color:${state.colors.shipA}">✦ HITS <b>${stats.asteroids+stats.aliens}</b></span>`;h+=`<span class="metric">◷ FOCUS <b>${formatSecs(stats.seconds)}</b></span>`;$('metrics').innerHTML=h}
+  function updateScores(){let h='';if(state.mode==='snake')h+=`<span class="metric" style="color:${state.colors.snakeA}">🍎 EATEN <b>${stats.eaten}</b></span>`;if(state.mode==='space')h+=`<span class="metric" style="color:${state.colors.resource}">✧ ATOMS <b>${stats.resources}</b></span><span class="metric" style="color:${state.colors.shipA}">✦ HITS <b>${stats.asteroids+stats.aliens}</b></span>`;h+=`<span class="metric">◷ FOCUS <b>${formatSecs(stats.seconds)}</b></span>`;$('metrics').innerHTML=h}
 
   // One independent pathfinding snake. No enemy snake and no programmed playback path.
   class SnakeWorld {
@@ -263,10 +319,68 @@ input[type=range]{width:100%;accent-color:var(--clock)}
   }
 
   const snake=new SnakeWorld(),space=new SpaceWorld();
+
+  // The selected match and scorecard are fetched only in Scores mode.
+  // This independent, CORS-enabled endpoint has no API key and returns batting/bowling arrays.
+  const CRICKET_API='https://cricket-api-eosin-ten.vercel.app';
+  let cricketMatches=[],cricketLastFetch=0,cricketLoading=false,cricketDetailsAt=0,cricketFetchingDetail=false;
+  const cricketText=(v,fallback='—')=>v===null||v===undefined||v===''?fallback:String(v);
+  function cricketFeedback(message){$('cricketFeedback').textContent=message}
+  function cricketOption(match){const teams=Array.isArray(match.teams)?match.teams.filter(Boolean).join(' vs '):'';return cricketText(teams||match.title||('Match '+match.id))+' · '+cricketText(match.status,'Status unknown')}
+  async function cricketGet(endpoint){const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),14000);try{const res=await fetch(CRICKET_API+endpoint,{mode:'cors',cache:'no-store',signal:controller.signal});if(!res.ok)throw Error('Cricket service HTTP '+res.status);const result=await res.json();if(result.success===false)throw Error(result.message||'Cricket service unavailable');return result.data||result}finally{clearTimeout(timeout)}}
+  async function loadCricketMatches(force=false){
+    if(state.mode!=='sports'||cricketLoading||(!force&&Date.now()-cricketLastFetch<90000&&cricketMatches.length)){if(state.mode==='sports'&&state.cricketId)loadCricketDetail(false);return}
+    cricketLoading=true;cricketFeedback('Updating match list…');
+    try{
+      const data=await cricketGet('/live-matches');
+      const matches=Array.isArray(data.matches)?data.matches:[];
+      cricketMatches=matches.filter(m=>m&&/^\d+$/.test(String(m.id)));
+      cricketMatches.sort((a,b)=>(/live|in progress/i.test(b.status)?1:0)-(/live|in progress/i.test(a.status)?1:0));
+      cricketLastFetch=Date.now();
+      const selector=$('cricketMatches');selector.replaceChildren();
+      if(!cricketMatches.length){selector.add(new Option('No matches currently listed',''));$('cricketDetail').hidden=true;cricketFeedback('No cricket matches are listed right now. Use ↻ to check again.');return}
+      selector.add(new Option('Choose a match…',''));
+      cricketMatches.forEach(m=>selector.add(new Option(cricketOption(m),String(m.id))));
+      if(!cricketMatches.some(m=>String(m.id)===String(state.cricketId))){state.cricketId=String((cricketMatches.find(m=>/live|in progress/i.test(m.status))||cricketMatches[0]).id);saveSettings()}
+      selector.value=state.cricketId;
+      cricketFeedback(cricketMatches.length+' matches listed · choose one to follow');
+      await loadCricketDetail(true);
+    }catch(error){cricketFeedback('Live scores unavailable right now. Tap ↻ to retry, or open cricket scores below.');if(!cricketMatches.length){$('cricketMatches').replaceChildren(new Option('Scores unavailable',''));$('cricketDetail').hidden=true}}
+    finally{cricketLoading=false}
+  }
+  function cricketRenderPlayers(id,items,type){
+    const root=$(id);root.replaceChildren();
+    if(!Array.isArray(items)||!items.length){const note=document.createElement('div');note.className='cricket-player-stat';note.textContent='No player data yet';root.append(note);return}
+    for(const p of items.slice(0,2)){if(!p||typeof p!=='object')continue;const item=document.createElement('div');item.className='cricket-player';const name=document.createElement('div');name.className='cricket-player-name';name.textContent=cricketText(p.name,'Player');const stat=document.createElement('div');stat.className='cricket-player-stat';stat.textContent=type==='bat'?cricketText(p.runs,'0')+' runs · '+cricketText(p.balls,'0')+' balls':cricketText(p.overs,'0')+' ov · '+cricketText(p.wickets,'0')+' wkts';item.append(name,stat);root.append(item)}
+  }
+  async function loadCricketDetail(force=false){
+    const id=String(state.cricketId||'');if(state.mode!=='sports'||!/^\d+$/.test(id)||cricketFetchingDetail||(!force&&Date.now()-cricketDetailsAt<40000))return;
+    cricketFetchingDetail=true;
+    try{
+      const d=await cricketGet('/matches/'+encodeURIComponent(id)+'/live');
+      if(id!==String(state.cricketId))return;
+      $('cricketDetail').hidden=false;
+      $('cricketTitle').textContent=cricketText(d.title,'Cricket match');
+      const sc=d.current_score;
+      $('cricketScore').textContent=sc?cricketText(sc.team,'')+' '+cricketText(sc.runs,'0')+'/'+cricketText(sc.wickets,'0'):'Score pending';
+      $('cricketMeta').textContent=[sc&&sc.overs!==undefined?cricketText(sc.overs)+' overs':'',d.run_rate!==null&&d.run_rate!==undefined?'RR '+d.run_rate:'',cricketText(d.status,'')].filter(Boolean).join(' · ');
+      cricketRenderPlayers('cricketBatting',d.batting,'bat');cricketRenderPlayers('cricketBowling',d.bowling,'bowl');
+      const full='https://www.cricbuzz.com/live-cricket-scorecard/'+encodeURIComponent(id);
+      $('cricketSource').href=full;
+      const updated=new Date();$('cricketUpdated').textContent='Checked '+updated.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+' · refreshes every 45 sec';
+      cricketFeedback('Scorecard updated');
+      cricketDetailsAt=Date.now();
+    }catch(error){cricketFeedback('Could not update this match. Showing last available information if any.');$('cricketUpdated').textContent='Update unavailable · tap ↻'}
+    finally{cricketFetchingDetail=false}
+  }
+  $('cricketMatches').addEventListener('change',event=>{state.cricketId=event.target.value;cricketDetailsAt=0;$('cricketDetail').hidden=true;saveSettings();loadCricketDetail(true)});
+  $('cricketRefresh').addEventListener('click',()=>{cricketLastFetch=0;cricketDetailsAt=0;loadCricketMatches(true)});
+  setInterval(()=>{if(!document.hidden&&state.mode==='sports'){if(Date.now()-cricketLastFetch>=180000)loadCricketMatches(true);else loadCricketDetail(false)}},45000);
+
   function resize(){const b=$('app').getBoundingClientRect();if(!b.width||!b.height)return;const prevW=W,prevH=H;W=b.width;H=b.height;dpr=Math.min(2,window.devicePixelRatio||1);canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);canvas.style.width=W+'px';canvas.style.height=H+'px';if(Math.abs(W-prevW)>2||Math.abs(H-prevH)>2){const r=rects();snake.setup(r.snake.w,r.snake.h);space.setup(r.space.w,r.space.h)}}
-  function changeMode(mode){if(!['snake','space','both'].includes(mode))return;if(state.mode!==mode){state.mode=mode;const r=rects();snake.setup(r.snake.w,r.snake.h);space.setup(r.space.w,r.space.h)}updateUI();saveSettings()}
+  function changeMode(mode){if(!['snake','space','sports'].includes(mode))return;if(state.mode!==mode){state.mode=mode;const r=rects();if(mode==='snake')snake.setup(r.snake.w,r.snake.h);if(mode==='space')space.setup(r.space.w,r.space.h)}updateUI();saveSettings()}
   function restart(){if(!window.confirm('Restart your focus session? This resets the food counter, collected resources, hits, and focus timer.'))return;stats={...statsDefault};saveStats();const r=rects();snake.setup(r.snake.w,r.snake.h);space.setup(r.space.w,r.space.h);updateScores()}
-  function render(ts){raf=requestAnimationFrame(render);const dt=last?Math.min(.08,Math.max(0,(ts-last)/1000)):.016;last=ts;if(document.hidden)return;stats.seconds+=dt;scoreTimer+=dt;secondsToSave+=dt;if(secondsToSave>5){secondsToSave=0;saveStats()}ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle=state.colors.bg;ctx.fillRect(0,0,W,H);const r=rects();if(state.mode!=='space'){snake.update(dt);snake.draw(r.snake)}if(state.mode!=='snake'){space.update(dt);space.draw(r.space)}if(state.mode==='both'){ctx.strokeStyle=rgba(state.colors.clock,.19);ctx.beginPath();ctx.moveTo(14,H*.51);ctx.lineTo(W-14,H*.51);ctx.stroke()}if(scoreTimer>.5){scoreTimer=0;updateScores()}}
+  function render(ts){raf=requestAnimationFrame(render);const dt=last?Math.min(.08,Math.max(0,(ts-last)/1000)):.016;last=ts;if(document.hidden)return;stats.seconds+=dt;scoreTimer+=dt;secondsToSave+=dt;if(secondsToSave>5){secondsToSave=0;saveStats()}ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle=state.colors.bg;ctx.fillRect(0,0,W,H);const r=rects();if(state.mode==='snake'){snake.update(dt);snake.draw(r.snake)}if(state.mode==='space'){space.update(dt);space.draw(r.space)}if(scoreTimer>.5){scoreTimer=0;updateScores()}}
   let wakeLock=null;
   async function syncWake(){if(wakeLock){try{await wakeLock.release()}catch(e){}wakeLock=null}if(state.wake&&navigator.wakeLock){try{wakeLock=await navigator.wakeLock.request('screen')}catch(e){}}}
   function settingsOpen(open){$('settings').classList.toggle('open',open);$('settings').setAttribute('aria-hidden',String(!open));$('scrim').classList.toggle('show',open);(open?$('closeBtn'):$('settingsBtn')).focus()}
