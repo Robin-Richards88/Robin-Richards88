@@ -3,11 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#050507">
+<meta id="themeMeta" name="theme-color" content="#050507">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="StudyClock AI">
-<meta name="description" content="A beautiful study clock with non-stop autonomous Snake and space battles.">
+<meta name="description" content="A quiet study clock with one autonomous Snake and a gentle Space Impact-inspired journey.">
+
+
+
 <title>StudyClock AI — Autonomous Ambient Clock</title>
 <style>
 :root{color-scheme:dark;--bg:#050507;--clock:#9794d0;--accent:#777dff;--snakeA:#76e1bd;--snakeB:#f8b17b;--shipA:#74bdfd;--shipB:#fe9b9e;--glow:0.73;--label:#d4d5e5}
@@ -19,7 +22,7 @@ button,input,select{font:inherit}button{cursor:pointer}
 #shades{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,.38) 0%,transparent 27%,transparent 68%,rgba(0,0,0,.35) 100%)}
 /* The time is intentionally oversized, thin, and stacked, as in the supplied screenshots. */
 #clock{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:center;pointer-events:none;filter:drop-shadow(0 0 12px rgba(0,0,0,.8));padding-top:1vh;padding-bottom:4vh}
-.time-number{font-family:"Helvetica Neue",-apple-system,"Segoe UI Light","Arial Narrow",sans-serif;font-weight:100;line-height:.76;letter-spacing:-.075em;color:var(--clock);opacity:.95;white-space:nowrap;user-select:none;font-variant-numeric:tabular-nums;transform:scaleX(.87);text-align:center;font-size:min(100vw,45dvh)}
+.time-number{font-family:"Helvetica Neue","Noto Sans Display",-apple-system,"Segoe UI Light","Arial Narrow",sans-serif;font-weight:100;line-height:.76;letter-spacing:-.075em;color:var(--clock);opacity:.95;white-space:nowrap;user-select:none;font-variant-numeric:tabular-nums;transform:scaleX(.87);text-align:center;font-size:min(100vw,45dvh)}
 #hour{margin-top:0}
 #period{font-family:"Helvetica Neue",-apple-system,sans-serif;color:var(--accent);font-weight:300;letter-spacing:.55em;font-size:clamp(20px,4.5vw,38px);line-height:1;margin:clamp(16px,3.1dvh,34px) 0 clamp(14px,3.3dvh,36px);padding-left:.55em;opacity:.98}
 #clock.compact{justify-content:flex-start;align-items:center;padding-top:max(102px,calc(env(safe-area-inset-top) + 77px));padding-bottom:0}
@@ -43,7 +46,7 @@ button,input,select{font:inherit}button{cursor:pointer}
 .date-pill{white-space:nowrap;border-radius:40px;padding:10px 11px;color:#e4e2e8;letter-spacing:.05em;font-size:clamp(10px,2.7vw,13px);border:1px solid rgba(255,255,255,.1);background:rgba(17,17,22,.71);backdrop-filter:blur(12px)}
 .topbar .grow{flex:1}
 .mode-label{position:absolute;z-index:5;bottom:calc(90px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);text-align:center;max-width:90%;font-size:10px;letter-spacing:.2em;white-space:nowrap;color:#e2e2f3;opacity:.7;text-shadow:0 1px 8px #000;pointer-events:none}
-.metrics{position:absolute;z-index:5;bottom:calc(125px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:7px;max-width:96%;pointer-events:none}
+.metrics{position:absolute;z-index:5;bottom:calc(125px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:6px;row-gap:5px;flex-wrap:wrap;width:calc(100vw - 20px);max-width:500px;pointer-events:none}
 .metric{font-size:10px;line-height:1.2;letter-spacing:.1em;padding:6px 9px;border:1px solid rgba(255,255,255,.10);background:rgba(9,9,16,.55);border-radius:30px;white-space:nowrap;text-shadow:0 1px 5px #000}
 .controls{position:absolute;bottom:max(16px,calc(env(safe-area-inset-bottom) + 13px));left:50%;transform:translateX(-50%);z-index:8;display:flex;justify-content:center;align-items:center;gap:5px;padding:6px;border:1px solid rgba(255,255,255,.16);border-radius:100px;background:rgba(21,21,29,.84);box-shadow:0 15px 45px #0009,0 1px 1px #fff2 inset;backdrop-filter:blur(22px);max-width:calc(100vw - 16px)}
 .tab{border:0;background:none;color:#aaa9bf;font-weight:650;letter-spacing:.02em;font-size:11px;padding:13px clamp(9px,3vw,17px);border-radius:50px;min-height:42px;transition:background .18s,color .18s;white-space:nowrap}
@@ -93,24 +96,25 @@ input[type=range]{width:100%;accent-color:var(--clock)}
 </head>
 <body>
 <div id="app">
-<canvas id="ambient" aria-label="Autonomous background game: two computer-controlled agents"></canvas>
+<canvas id="ambient" aria-label="Autonomous background game: a self-playing game"></canvas>
 <div id="shades"></div>
 <header class="topbar">
-  <div class="brand"><span class="spark">✧</span><div><div class="brand-title">STUDYCLOCK <span style="color:var(--clock)">AI</span></div><div class="brand-sub">AUTONOMOUS AMBIENCE</div></div></div>
+  <div class="brand"><span class="spark">✧</span><div><div class="brand-title">STUDYCLOCK <span style="color:var(--clock)">AI</span></div><div class="brand-sub">QUIET FOCUS AMBIENCE</div></div></div>
   <span class="grow"></span><div class="date-pill" id="date">28 OCT · WED</div>
 </header>
-<div id="status" aria-live="polite">LIVE AI · NO REPLAY</div>
+<div id="status" aria-live="polite">LIVE SIMULATION · NO REPLAY</div>
 <main id="clock" aria-label="Current local time">
  <div id="compactRow"><span class="time-number" id="hour">12</span><span id="compactColon">:</span><span class="time-number" id="minute">57</span><span id="compactPeriod">PM</span></div>
  <div id="period">PM</div>
 </main>
-<div class="metrics" id="metrics" aria-label="Autonomous game score"></div>
-<div class="mode-label" id="modeLabel">SNAKE · AI VS AI</div>
+<div class="metrics" id="metrics" aria-label="Focus session counters"></div>
+<div class="mode-label" id="modeLabel">SNAKE · AUTOPILOT</div>
 <nav class="controls" aria-label="Background game choice and options">
  <button type="button" class="tab" id="snakeTab" data-mode="snake" aria-pressed="true">🐍 Snake</button>
  <button type="button" class="tab" id="spaceTab" data-mode="space" aria-pressed="false">🚀 Space</button>
  <button type="button" class="tab" id="bothTab" data-mode="both" aria-pressed="false">Both</button>
  <span class="divline"></span>
+ <button type="button" class="iconbtn" id="restartBtn" title="Restart focus counters" aria-label="Restart focus counters"><svg viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2.5 7M3 4v7h7"/></svg></button>
  <button type="button" class="iconbtn" id="settingsBtn" title="Customize display colors and settings" aria-label="Customize display colors and settings"><svg viewBox="0 0 24 24"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="4"/></svg></button>
  <button type="button" class="iconbtn" id="fullscreenBtn" title="Fullscreen" aria-label="Go fullscreen"><svg viewBox="0 0 24 24"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button>
 </nav>
@@ -123,171 +127,160 @@ input[type=range]{width:100%;accent-color:var(--clock)}
   <label class="color-row">Clock digits<input type="color" data-color="clock" value="#9794d0"></label>
   <label class="color-row">Background<input type="color" data-color="bg" value="#050507"></label>
   <label class="color-row">Accent / PM<input type="color" data-color="accent" value="#777dff"></label>
-  <label class="color-row">Snake AI 1<input type="color" data-color="snakeA" value="#76e1bd"></label>
-  <label class="color-row">Snake AI 2<input type="color" data-color="snakeB" value="#f8b17b"></label>
-  <label class="color-row">Space AI 1<input type="color" data-color="shipA" value="#74bdfd"></label>
-  <label class="color-row">Space AI 2<input type="color" data-color="shipB" value="#fe9b9e"></label>
+  <label class="color-row">Snake body<input type="color" data-color="snakeA" value="#76e1bd"></label>
+  <label class="color-row">Snake food<input type="color" data-color="snakeB" value="#f8b17b"></label>
+  <label class="color-row">Your spaceship<input type="color" data-color="shipA" value="#74bdfd"></label>
+  <label class="color-row">Alien ships<input type="color" data-color="shipB" value="#fe9b9e"></label>
+  <label class="color-row">Glowing atoms<input type="color" data-color="resource" value="#98f6e5"></label>
  </div>
  <h3>Clock display</h3><div class="selects">
  <label class="field">Layout<select id="layout"><option value="stacked">Stacked · screenshot style</option><option value="compact">Clock at top</option></select></label>
  <label class="field">Time format<select id="format"><option value="12">12-hour AM/PM</option><option value="24">24-hour</option></select></label>
  </div>
  <div class="range-row"><label for="brightness">Game visibility <output id="brightnessValue">73%</output></label><input type="range" id="brightness" min="15" max="100" step="1" value="73"></div>
- <div class="range-row"><label for="speed">AI game speed <output id="speedValue">1.0×</output></label><input type="range" id="speed" min="0.5" max="2" step="0.1" value="1"></div>
- <label class="toggle-row">Show date and AI scores <input id="showHud" type="checkbox" checked></label>
+ <div class="range-row"><label for="speed">Background pace <output id="speedValue">1.0×</output></label><input type="range" id="speed" min="0.5" max="2" step="0.1" value="1"></div>
+ <label class="toggle-row">Show date and focus counters <input id="showHud" type="checkbox" checked></label>
  <label class="toggle-row">Try to keep screen awake <input id="wake" type="checkbox"></label>
  <div class="setting-help">Screen-awake works where your browser supports it. You may also need to adjust your phone’s auto-lock settings.</div>
  <button class="wide-btn primary" type="button" id="doneBtn">Back to clock</button>
+ <button class="wide-btn" type="button" id="restartSettingsBtn">↻ Restart focus session and counters</button>
  <button class="wide-btn" type="button" id="resetBtn">Restore default colors & settings</button>
- <div class="settings-foot">Both games are genuine simulations. Snake agents search for food, avoid collisions, and compete. Space pilots target, dodge, fire, and respawn. There is no video and no prerecorded animation. Sound is always off.</div>
+ <div class="settings-foot">Both scenes are live simulations, never recorded loops. One snake searches for food and resets its length at one quarter of the board, while its food counter persists. In space, a solitary ship cruises, gathers glowing atoms, dodges danger, and occasionally fires on asteroids and alien ships. Sound is always off.</div>
 </aside>
 </div>
 <script>
-(()=>{'use strict';
-const $=id=>document.getElementById(id);
-const defaultState={mode:'snake',theme:'lilac',layout:'stacked',format:'12',brightness:73,speed:1,showHud:true,wake:false,colors:{bg:'#050507',clock:'#9794d0',accent:'#777dff',snakeA:'#76e1bd',snakeB:'#f8b17b',shipA:'#74bdfd',shipB:'#fe9b9e'}};
-const themes=[
- {id:'lilac',name:'Midnight lilac',c:{bg:'#050507',clock:'#9794d0',accent:'#777dff',snakeA:'#76e1bd',snakeB:'#f8b17b',shipA:'#74bdfd',shipB:'#fe9b9e'}},
- {id:'matrix',name:'Terminal green',c:{bg:'#010c08',clock:'#70ffad',accent:'#21c985',snakeA:'#5aff75',snakeB:'#b7fa65',shipA:'#7effcf',shipB:'#b3f775'}},
- {id:'cyber',name:'Cyberpunk',c:{bg:'#080414',clock:'#eb69ff',accent:'#a75fff',snakeA:'#00e9fd',snakeB:'#ff6e9c',shipA:'#14c8ff',shipB:'#ff598d'}},
- {id:'amber',name:'Warm amber',c:{bg:'#0d0904',clock:'#ffd18a',accent:'#f5a94d',snakeA:'#e0c96e',snakeB:'#eb8861',shipA:'#ffbb6f',shipB:'#e48662'}},
- {id:'ice',name:'Arctic blue',c:{bg:'#030b14',clock:'#9bcffa',accent:'#5c99ef',snakeA:'#7de9f6',snakeB:'#b4a9ff',shipA:'#63d9ff',shipB:'#b3b6ff'}},
- {id:'rose',name:'Rose dusk',c:{bg:'#100710',clock:'#f2a9bd',accent:'#d974c4',snakeA:'#eeb0f1',snakeB:'#ffba84',shipA:'#d98bea',shipB:'#feae7f'}}
-];
-let state;
-try{const stored=JSON.parse(localStorage.getItem('studyClockAI.settings')||'null');state=stored?{...defaultState,...stored,colors:{...defaultState.colors,...stored.colors}}:structuredClone(defaultState)}catch{state=JSON.parse(JSON.stringify(defaultState))}
-if(!['snake','space','both'].includes(state.mode))state.mode='snake';
-const save=()=>{try{localStorage.setItem('studyClockAI.settings',JSON.stringify(state))}catch{}};
-const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));const rand=(a,b)=>a+Math.random()*(b-a);const ri=(a,b)=>Math.floor(rand(a,b));
-const canvas=$('ambient'),ctx=canvas.getContext('2d',{alpha:false});let W=0,H=0,dpr=1,now=0,last=0,raf=0,paused=false;
-const rgba=(hex,a)=>{const s=hex.replace('#','');const n=parseInt(s,16);return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`};
-function applyColors(){for(const [k,v] of Object.entries(state.colors))document.documentElement.style.setProperty('--'+k,v);document.documentElement.style.setProperty('--glow',state.brightness/100);document.querySelector('meta[name="theme-color"]').content=state.colors.bg;document.querySelectorAll('input[data-color]').forEach(el=>el.value=state.colors[el.dataset.color]);}
-function updateClock(){const d=new Date();const h=d.getHours();$('hour').textContent=String(state.format==='12'?((h+11)%12+1):h).padStart(2,'0');$('minute').textContent=String(d.getMinutes()).padStart(2,'0');$('period').textContent=h>=12?'PM':'AM';$('compactPeriod').textContent=state.format==='12'?(h>=12?'PM':'AM'):'';$('date').textContent=String(d.getDate()).padStart(2,'0')+' '+d.toLocaleDateString('en-US',{month:'short'}).toUpperCase()+' · '+d.toLocaleDateString('en-US',{weekday:'short'}).toUpperCase();$('period').style.visibility=state.format==='12'?'visible':'hidden';}
-function updateUI(){applyColors();$('clock').classList.toggle('compact',state.layout==='compact');$('layout').value=state.layout;$('format').value=state.format;$('brightness').value=state.brightness;$('brightnessValue').textContent=state.brightness+'%';$('speed').value=state.speed;$('speedValue').textContent=Number(state.speed).toFixed(1)+'×';$('showHud').checked=state.showHud;$('wake').checked=state.wake;$('date').style.display=state.showHud?'':'none';$('metrics').style.display=state.showHud?'':'none';$('modeLabel').style.display=state.showHud?'':'none';$('status').style.display=state.showHud?'':'none';$('modeLabel').textContent=state.mode==='snake'?'SNAKE · AI VS AI':state.mode==='space'?'SPACE BATTLE · AI VS AI':'DUAL SIMULATION · AI VS AI';for(const el of document.querySelectorAll('.tab'))el.setAttribute('aria-pressed',String(el.dataset.mode===state.mode));for(const el of document.querySelectorAll('.theme'))el.setAttribute('aria-pressed',String(el.dataset.theme===state.theme));updateClock()}
-function buildThemes(){const grid=$('themeGrid');grid.innerHTML='';for(const t of themes){const b=document.createElement('button');b.className='theme';b.type='button';b.dataset.theme=t.id;b.setAttribute('aria-pressed',String(t.id===state.theme));b.innerHTML='<span class="theme-dots">'+[t.c.clock,t.c.snakeA,t.c.shipB].map(c=>'<i style="background:'+c+'"></i>').join('')+'</span><span class="theme-name">'+t.name+'</span>';b.addEventListener('click',()=>{state.theme=t.id;state.colors={...t.c};updateUI();save()});grid.appendChild(b)}}
-// ---------- Snake: two independent pathfinding agents ----------
-class SnakeWorld{
- constructor(){this.total=[0,0];this.wins=[0,0];this.accum=0;this.deadFrames=0;this.setup(0,0)}
- setup(w,h){this.regionW=w;this.regionH=h;this.cols=22;this.rows=Math.max(24,Math.min(49,Math.round(this.cols*Math.max(1.05,h/Math.max(1,w)))));this.food=[];this.snakes=[];this.blocks=new Set;this.tickCount=0;this.accum=0;
-  const cy=Math.floor(this.rows/2);this.spawn(0,{x:4,y:Math.floor(cy*.60)},1);this.spawn(1,{x:this.cols-5,y:Math.floor(cy*1.35)},-1);
-  // Small obstacles force the agents to plan different routes in each world.
-  for(let k=0;k<Math.min(12,Math.floor(this.rows*.27));k++){for(let tries=0;tries<45;tries++){const x=ri(3,this.cols-3),y=ri(4,this.rows-4);if(this.isVacant(x,y)&&Math.abs(x-4)+Math.abs(y-cy*.60)>6&&Math.abs(x-(this.cols-5))+Math.abs(y-cy*1.35)>6){this.blocks.add(y*this.cols+x);break}}}
-  this.addFood();this.addFood();this.addFood();}
- spawn(id,pt,dir){const body=[{...pt},{x:pt.x-dir,y:pt.y},{x:pt.x-2*dir,y:pt.y}];const sn={id,body,dir:{x:dir,y:0},alive:true,deadUntil:0,score:this.total[id],seed:rand(0,100)};this.snakes[id]=sn;}
- isVacant(x,y){if(x<1||y<1||x>=this.cols-1||y>=this.rows-1||this.blocks.has(y*this.cols+x))return false;return !this.snakes.some(s=>s&&s.alive&&s.body.some(p=>p.x===x&&p.y===y))&&!this.food.some(p=>p.x===x&&p.y===y)}
- addFood(){for(let t=0;t<200;t++){const p={x:ri(1,this.cols-1),y:ri(1,this.rows-1)};if(this.isVacant(p.x,p.y)){this.food.push(p);return}}}
- occupied(excludeTail){const occ=new Uint8Array(this.cols*this.rows);for(const n of this.blocks)occ[n]=1;for(const s of this.snakes)if(s&&s.alive){let n=s.body.length-(excludeTail?1:0);for(let i=0;i<n;i++){const p=s.body[i];if(p)occ[p.y*this.cols+p.x]=1}}return occ}
- // A flood-fill explores survivable space; BFS finds the closest reachable fruit.
- inspect(s,x,y,occ){let headIdx=y*this.cols+x;if(x<1||y<1||x>=this.cols-1||y>=this.rows-1||occ[headIdx])return null;
-  const seen=new Uint8Array(this.cols*this.rows);const q=new Int32Array(this.cols*this.rows);let start=0,end=1,free=0,nearest=9999;q[0]=headIdx;seen[headIdx]=1;
-  while(start<end){const k=q[start++],a=k%this.cols,b=(k-a)/this.cols;const dist= Math.abs(a-x)+Math.abs(b-y);free++;if(this.food.some(f=>f.x===a&&f.y===b))nearest=Math.min(nearest,dist);
-   const moves=[k-1,k+1,k-this.cols,k+this.cols];for(let m=0;m<4;m++){const t=moves[m],tx=t%this.cols,ty=(t-tx)/this.cols;if(tx<1||ty<1||tx>=this.cols-1||ty>=this.rows-1||seen[t]||occ[t])continue;seen[t]=1;q[end++]=t}
-  }return{free,nearest};}
- choose(s){let occ=this.occupied(true);const head=s.body[0];occ[head.y*this.cols+head.x]=0;
-  let best=null;const moves=[{x:1,y:0},{x:0,y:1},{x:-1,y:0},{x:0,y:-1}];
-  for(const d of moves){if(d.x===-s.dir.x&&d.y===-s.dir.y)continue;const x=head.x+d.x,y=head.y+d.y;const v=this.inspect(s,x,y,occ);if(!v)continue;
-   const hasFood=this.food.some(f=>f.x===x&&f.y===y);const other=this.snakes[1-s.id];const enemy=other?.alive?other.body[0]:null;const enemyDist=enemy?Math.abs(enemy.x-x)+Math.abs(enemy.y-y):99;
-   // Agent A is a slightly greedier forager; agent B protects escape space.
-   const weight=s.id===0?1.15:.8;const near=v.nearest===9999?120:v.nearest;
-   let value=-near*weight+Math.min(v.free,130)*.063+(hasFood?18:0);
-   if(v.free<s.body.length+5)value-=45;
-   if(enemyDist<=2)value-=enemyDist===1?18:4;
-   if(d.x===s.dir.x&&d.y===s.dir.y)value+=.35;
-   value+=rand(-.32,.32);
-   if(!best||value>best.value)best={d,x,y,value,hasFood};
-  }return best;}
- step(){this.tickCount++;for(let id=0;id<2;id++){const s=this.snakes[id];if(!s.alive&&this.tickCount>=s.deadUntil){for(let trials=0;trials<80;trials++){const x=ri(4,this.cols-4),y=ri(3,this.rows-3),d=Math.random()<.5?1:-1;if(this.isVacant(x,y)&&this.isVacant(x-d,y)&&this.isVacant(x-2*d,y)){this.spawn(id,{x,y},d);break}}}}
-  const choices=this.snakes.map(s=>s.alive?this.choose(s):null);
-  for(let id=0;id<2;id++){const s=this.snakes[id],c=choices[id];if(!s.alive)continue;
-   if(!c){this.kill(id);continue}
-   const other=choices[1-id];if(other&&c.x===other.x&&c.y===other.y){this.kill(id);this.kill(1-id);continue}
-   if(other&&c.x===this.snakes[1-id].body[0].x&&c.y===this.snakes[1-id].body[0].y&&other.x===s.body[0].x&&other.y===s.body[0].y){this.kill(id);this.kill(1-id);continue}
-   s.dir=c.d;s.body.unshift({x:c.x,y:c.y});
-   if(c.hasFood){const fi=this.food.findIndex(f=>f.x===c.x&&f.y===c.y);if(fi>=0)this.food.splice(fi,1);this.total[id]++;s.score=this.total[id];this.addFood()}
-   else s.body.pop();
-   if(s.body.length>29)s.body.pop();
-  }
-  if(this.tickCount>4000){this.setup(this.regionW,this.regionH)}
- }
- kill(id){const s=this.snakes[id];if(!s?.alive)return;s.alive=false;s.body=[];s.deadUntil=this.tickCount+Math.floor(rand(9,24));this.wins[1-id]++}
- update(dt){this.accum+=dt*state.speed;const per=.14;let steps=0;while(this.accum>=per&&steps++<4){this.step();this.accum-=per}this.accum=Math.min(this.accum,per*2)}
- draw(rect){const {x,y,w,h}=rect;const cell=Math.min(w/this.cols,h/this.rows),bw=cell*this.cols,bh=cell*this.rows,ox=x+(w-bw)/2,oy=y+(h-bh)/2;ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();
-  ctx.strokeStyle=rgba(state.colors.clock,.065);ctx.lineWidth=.6;for(let i=0;i<=this.cols;i++){const xx=ox+i*cell;ctx.beginPath();ctx.moveTo(xx,oy);ctx.lineTo(xx,oy+bh);ctx.stroke()}for(let i=0;i<=this.rows;i++){const yy=oy+i*cell;ctx.beginPath();ctx.moveTo(ox,yy);ctx.lineTo(ox+bw,yy);ctx.stroke()}
-  ctx.strokeStyle=rgba(state.colors.clock,.2);ctx.lineWidth=1.2;ctx.strokeRect(ox,oy,bw,bh);
-  for(const k of this.blocks){const ix=k%this.cols,iy=(k-ix)/this.cols;ctx.fillStyle=rgba(state.colors.clock,.09);ctx.fillRect(ox+ix*cell+cell*.12,oy+iy*cell+cell*.12,cell*.76,cell*.76)}
-  for(const f of this.food){const cx=ox+(f.x+.5)*cell,cy=oy+(f.y+.5)*cell;ctx.fillStyle='#ffe8ab';ctx.shadowColor='#ffc271';ctx.shadowBlur=10;ctx.beginPath();ctx.arc(cx,cy,cell*.28,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;}
-  for(const sn of this.snakes){if(!sn.alive)continue;const color=sn.id?state.colors.snakeB:state.colors.snakeA;sn.body.forEach((p,i)=>{const px=ox+p.x*cell,py=oy+p.y*cell;ctx.fillStyle=rgba(color,i===0?.99:Math.max(.22,.85-i*.024));ctx.shadowColor=color;ctx.shadowBlur=i===0?cell*1.1:cell*.22;const r=Math.max(1.2,cell*.23);roundRect(ctx,px+cell*.06,py+cell*.06,cell*.88,cell*.88,r);ctx.fill();ctx.shadowBlur=0;if(i===0&&cell>9){ctx.fillStyle='#10121b';const ex=px+cell*.5+sn.dir.x*cell*.12,ey=py+cell*.5+sn.dir.y*cell*.12;ctx.beginPath();ctx.arc(ex,ey,cell*.10,0,7);ctx.fill()}})}ctx.restore()}
-}
-function roundRect(c,x,y,w,h,r){r=Math.min(r,w/2,h/2);c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
-// ---------- Space battle: two autonomous piloting, aiming and dodging agents ----------
-class SpaceWorld{
- constructor(){this.score=[0,0];this.ships=[];this.shots=[];this.rocks=[];this.particles=[];this.stars=[];this.clock=0;this.rockTimer=.4;this.setup(390,800)}
- setup(w,h){this.w=w;this.h=h;this.clock=0;this.shots=[];this.rocks=[];this.particles=[];this.ships=[{id:0,x:w*.19,y:h*.43,v:0,target:h*.45,cool:.5,hp:3,invuln:1,drift:rand(0,10),decision:0},{id:1,x:w*.81,y:h*.56,v:0,target:h*.55,cool:.7,hp:3,invuln:1,drift:rand(0,10),decision:0}];this.stars=Array.from({length:Math.min(135,Math.floor(w*h/1300))},()=>({x:rand(0,w),y:rand(0,h),r:rand(.3,1.8),v:rand(10,66),f:rand(.2,1)}));this.rockTimer=2}
- explosion(x,y,color,count=22){for(let i=0;i<count;i++){const a=rand(0,Math.PI*2),v=rand(25,160);this.particles.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:rand(.23,.95),full:1,c:color})}}
- respawn(s){const enemy=this.ships[1-s.id];this.score[enemy.id]++;this.explosion(s.x,s.y,s.id===0?state.colors.shipA:state.colors.shipB,32);s.hp=3;s.x=this.w*(s.id===0?.19:.81);s.y=rand(this.h*.18,this.h*.83);s.target=s.y;s.invuln=2.2;s.cool=.8;}
- update(dt){dt=Math.min(.045,dt*state.speed);this.clock+=dt;const w=this.w,h=this.h;
-  for(const star of this.stars){star.x-=star.v*dt;if(star.x<0){star.x=w+2;star.y=rand(0,h)}}
-  this.rockTimer-=dt;if(this.rockTimer<=0){this.rockTimer=rand(1.2,2.8);this.rocks.push({x:w+28,y:rand(h*.16,h*.86),vx:-rand(45,125),vy:rand(-15,15),r:rand(10,23),rot:rand(0,7),spin:rand(-1.5,1.5),hp:2})}
-  for(const s of this.ships){s.invuln=Math.max(0,s.invuln-dt);s.cool-=dt;s.decision-=dt;const enemy=this.ships[1-s.id];
-   if(s.decision<=0){s.decision=rand(.14,.30);
-    const lead=clamp((Math.abs(s.x-enemy.x)/390)*enemy.v*.45,-62,62);
-    let goal=enemy.y+lead+Math.sin(this.clock*1.2+s.drift)*16;
-    let danger=0,evade=0;
-    for(const p of this.shots){if(p.owner===s.id)continue;const inbound=(s.x-p.x)/p.vx;if(inbound>0&&inbound<1.05){const predicted=p.y+p.vy*inbound;const gap=Math.abs(predicted-s.y);if(gap<43&&1/(inbound+.15)>danger){danger=1/(inbound+.15);evade=s.y<predicted?-1:1}}}
-    for(const rock of this.rocks){const t=(s.x-rock.x)/rock.vx;if(t>0&&t<1.1&&Math.abs(rock.y+rock.vy*t-s.y)<rock.r+20&&1.3/(t+.15)>danger){danger=1.3/(t+.15);evade=s.y<rock.y?-1:1}}
-    if(danger>0){goal=s.y+evade*Math.min(135,55+danger*15)}
-    s.target=clamp(goal,30,h-30);
-   }
-   const delta=s.target-s.y;const nextV=clamp(delta*4.2,-135,135);s.v+=(nextV-s.v)*Math.min(1,dt*8);s.y=clamp(s.y+s.v*dt,25,h-25);
-   s.x+=(w*(s.id===0?.19:.81)+Math.sin(this.clock*.55+s.drift)*11-s.x)*dt*2;
-   if(s.cool<=0){s.cool=rand(.48,.78);this.shots.push({x:s.x+(s.id===0?15:-15),y:s.y,vx:(s.id===0?1:-1)*rand(275,370),vy:clamp((enemy.y-s.y)*.23,-37,37),owner:s.id,life:3.5});this.explosion(s.x+(s.id===0?18:-18),s.y,s.id===0?state.colors.shipA:state.colors.shipB,3)}
-  }
-  for(let i=this.shots.length-1;i>=0;i--){const p=this.shots[i];p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;let hit=false;
-   const enemy=this.ships[1-p.owner];if(enemy.invuln<=0&&Math.hypot(enemy.x-p.x,enemy.y-p.y)<15){enemy.hp--;enemy.invuln=.35;this.explosion(p.x,p.y,p.owner===0?state.colors.shipA:state.colors.shipB,11);hit=true;if(enemy.hp<=0)this.respawn(enemy)}
-   for(const rock of this.rocks){if(!hit&&Math.hypot(rock.x-p.x,rock.y-p.y)<rock.r){rock.hp--;hit=true;this.explosion(p.x,p.y,'#a6a7c8',4)}}
-   if(hit||p.x< -30||p.x>w+30||p.y< -25||p.y>h+25||p.life<=0)this.shots.splice(i,1)
-  }
-  for(let i=this.rocks.length-1;i>=0;i--){const r=this.rocks[i];r.x+=r.vx*dt;r.y+=r.vy*dt;r.rot+=r.spin*dt;for(const s of this.ships){if(s.invuln<=0&&Math.hypot(s.x-r.x,s.y-r.y)<r.r+10){s.hp--;s.invuln=.45;this.explosion(s.x,s.y,'#dcb8a1',10);r.hp=0;if(s.hp<=0)this.respawn(s)}}if(r.hp<=0){this.explosion(r.x,r.y,'#aaa5b5',12);this.rocks.splice(i,1)}else if(r.x< -35||r.y< -40||r.y>h+40)this.rocks.splice(i,1)}
-  for(let i=this.particles.length-1;i>=0;i--){const p=this.particles[i];p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=.975;p.vy*=.975;p.life-=dt;if(p.life<=0)this.particles.splice(i,1)}
-  if(this.particles.length>170)this.particles.splice(0,this.particles.length-170);
- }
- draw(rect){const {x,y,w,h}=rect;ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();const sx=w/this.w,sy=h/this.h;ctx.translate(x,y);ctx.scale(sx,sy);
-  // Layered, continuously moving stars and a subtle tactical flight grid.
-  ctx.strokeStyle=rgba(state.colors.shipA,.07);ctx.lineWidth=.9;const step=Math.max(50,this.w/6);for(let a=0;a<this.w;a+=step){ctx.beginPath();ctx.moveTo(a,0);ctx.lineTo(a,this.h);ctx.stroke()}for(let b=0;b<this.h;b+=step){ctx.beginPath();ctx.moveTo(0,b);ctx.lineTo(this.w,b);ctx.stroke()}
-  for(const st of this.stars){ctx.fillStyle=rgba(state.colors.clock,st.f*.65);ctx.beginPath();ctx.arc(st.x,st.y,st.r,0,Math.PI*2);ctx.fill()}
-  ctx.setLineDash([4,8]);ctx.strokeStyle=rgba(state.colors.clock,.21);ctx.beginPath();ctx.moveTo(this.w*.5,0);ctx.lineTo(this.w*.5,this.h);ctx.stroke();ctx.setLineDash([]);
-  for(const r of this.rocks){ctx.save();ctx.translate(r.x,r.y);ctx.rotate(r.rot);ctx.beginPath();for(let i=0;i<9;i++){const a=i*Math.PI*2/9;const rr=r.r*(.84+.13*Math.sin(i*8.7));const xx=Math.cos(a)*rr,yy=Math.sin(a)*rr;if(!i)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy)}ctx.closePath();ctx.strokeStyle=rgba(state.colors.clock,.5);ctx.fillStyle=rgba(state.colors.clock,.17);ctx.lineWidth=1.6;ctx.fill();ctx.stroke();ctx.restore()}
-  for(const p of this.shots){const color=p.owner?state.colors.shipB:state.colors.shipA;ctx.shadowColor=color;ctx.shadowBlur=13;ctx.strokeStyle=color;ctx.lineWidth=2.7;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(p.x-p.vx*.032,p.y-p.vy*.032);ctx.lineTo(p.x,p.y);ctx.stroke();ctx.shadowBlur=0}
-  for(const s of this.ships){const color=s.id?state.colors.shipB:state.colors.shipA;ctx.save();ctx.translate(s.x,s.y);if(s.id===1)ctx.scale(-1,1);ctx.globalAlpha=s.invuln>0?.65+.35*Math.cos(this.clock*18)**2:1;
-   ctx.shadowColor=color;ctx.shadowBlur=17;ctx.fillStyle=rgba(color,.29);ctx.strokeStyle=color;ctx.lineWidth=2;
-   ctx.beginPath();ctx.moveTo(19,0);ctx.lineTo(-12,-12);ctx.lineTo(-7,-4);ctx.lineTo(-17,-4);ctx.lineTo(-17,4);ctx.lineTo(-7,4);ctx.lineTo(-12,12);ctx.closePath();ctx.fill();ctx.stroke();ctx.shadowBlur=0;
-   ctx.fillStyle=color;ctx.fillRect(-2,-2.5,6,5);ctx.fillStyle=rgba(color,.6);ctx.beginPath();ctx.moveTo(-16,-5);ctx.lineTo(-23-rand(0,6),0);ctx.lineTo(-16,5);ctx.fill();ctx.restore();
-   for(let j=0;j<3;j++){ctx.fillStyle=j<s.hp?color:rgba(color,.2);ctx.fillRect(s.x-12+j*9,s.y-27,7,2)}
-  }
-  for(const p of this.particles){ctx.globalAlpha=clamp(p.life,0,1);ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,2.4,2.4)}ctx.globalAlpha=1;ctx.restore();}
-}
-let snake,space;
-function regions(){if(state.mode==='both')return{snake:{x:0,y:0,w:W,h:H*.5},space:{x:0,y:H*.5,w:W,h:H*.5}};return{snake:{x:0,y:0,w:W,h:H},space:{x:0,y:0,w:W,h:H}}}
-function resize(){const box=$('app').getBoundingClientRect();W=box.width;H=box.height;dpr=Math.min(2,window.devicePixelRatio||1);canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);canvas.style.width=W+'px';canvas.style.height=H+'px';ctx.setTransform(dpr,0,0,dpr,0,0);const r=regions();snake?.setup(r.snake.w,r.snake.h);space?.setup(r.space.w,r.space.h)}
-function setMode(mode){if(!['snake','space','both'].includes(mode))return;state.mode=mode;const r=regions();snake.setup(r.snake.w,r.snake.h);space.setup(r.space.w,r.space.h);updateUI();drawScores();save()}
-function drawScores(){const a=snake.total,b=space.score;let html='';if(state.mode!=='space')html+=`<span class="metric" style="color:${state.colors.snakeA}">SNAKE A ${a[0]}</span><span class="metric" style="color:${state.colors.snakeB}">B ${a[1]}</span>`;if(state.mode!=='snake')html+=`<span class="metric" style="color:${state.colors.shipA}">PILOT A ${b[0]}</span><span class="metric" style="color:${state.colors.shipB}">B ${b[1]}</span>`;$('metrics').innerHTML=html;}
-let scoreTime=0;
-function frame(ts){raf=requestAnimationFrame(frame);if(paused)return;const dt=last?Math.min(.07,(ts-last)/1000):.016;last=ts;now+=dt;const rr=regions();ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle=state.colors.bg;ctx.fillRect(0,0,W,H);
- if(state.mode!=='space'){snake.update(dt);snake.draw(rr.snake)}if(state.mode!=='snake'){space.update(dt);space.draw(rr.space)}
- if(state.mode==='both'){ctx.strokeStyle=rgba(state.colors.clock,.22);ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(14,H*.5);ctx.lineTo(W-14,H*.5);ctx.stroke();ctx.font='10px sans-serif';ctx.fillStyle=rgba(state.colors.clock,.7);ctx.fillText('01 / SNAKE',18,H*.5-12);ctx.fillText('02 / SPACE',18,H*.5+18)}
- scoreTime+=dt;if(scoreTime>.5){scoreTime=0;drawScores()}}
-function openSettings(open){$('settings').classList.toggle('open',open);$('settings').setAttribute('aria-hidden',String(!open));$('scrim').classList.toggle('show',open);if(open)$('closeBtn').focus();else $('settingsBtn').focus()}
-let wakeLock=null;
-async function syncWake(){if(wakeLock){try{await wakeLock.release()}catch{}wakeLock=null}if(state.wake&&'wakeLock'in navigator){try{wakeLock=await navigator.wakeLock.request('screen');}catch{}}}
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const defaults = {
+    mode:'snake',theme:'lilac',layout:'stacked',format:'12',brightness:73,
+    speed:1,showHud:true,wake:false,
+    colors:{bg:'#050507',clock:'#9794d0',accent:'#777dff',snakeA:'#76e1bd',snakeB:'#ffcf80',shipA:'#74bdfd',shipB:'#fe9b9e',resource:'#98f6e5'}
+  };
+  const themes = [
+    {id:'lilac',name:'Midnight lilac',c:defaults.colors},
+    {id:'matrix',name:'Terminal green',c:{bg:'#010c08',clock:'#70ffad',accent:'#21c985',snakeA:'#5aff75',snakeB:'#f7e77f',shipA:'#7effcf',shipB:'#b3f775',resource:'#a0ffe6'}},
+    {id:'cyber',name:'Cyberpunk',c:{bg:'#080414',clock:'#eb69ff',accent:'#a75fff',snakeA:'#00e9fd',snakeB:'#ffec76',shipA:'#14c8ff',shipB:'#ff598d',resource:'#caffef'}},
+    {id:'amber',name:'Warm amber',c:{bg:'#0d0904',clock:'#ffd18a',accent:'#f5a94d',snakeA:'#e0c96e',snakeB:'#fbe3a3',shipA:'#ffbb6f',shipB:'#e48662',resource:'#e9ffd1'}},
+    {id:'ice',name:'Arctic blue',c:{bg:'#030b14',clock:'#9bcffa',accent:'#5c99ef',snakeA:'#7de9f6',snakeB:'#fff2a1',shipA:'#63d9ff',shipB:'#b3b6ff',resource:'#abfff4'}},
+    {id:'rose',name:'Rose dusk',c:{bg:'#100710',clock:'#f2a9bd',accent:'#d974c4',snakeA:'#eeb0f1',snakeB:'#ffdf8d',shipA:'#d98bea',shipB:'#feae7f',resource:'#f1ffcb'}}
+  ];
+  const clone = x => JSON.parse(JSON.stringify(x));
+  let state=clone(defaults);
+  try {const s=JSON.parse(localStorage.getItem('studyClockAI.settings')||'null');if(s)state={...defaults,...s,colors:{...defaults.colors,...s.colors}};}catch(e){}
+  if(!['snake','space','both'].includes(state.mode))state.mode='snake';
+  const statsDefault={eaten:0,resources:0,asteroids:0,aliens:0,seconds:0};
+  let stats={...statsDefault};
+  try{const stored=JSON.parse(localStorage.getItem('studyClockAI.focusStats.v2')||'null');if(stored)for(const key of Object.keys(statsDefault))if(Number.isFinite(stored[key])&&stored[key]>=0)stats[key]=stored[key];}catch(e){}
+  const saveSettings=()=>{try{localStorage.setItem('studyClockAI.settings',JSON.stringify(state))}catch(e){}};
+  const saveStats=()=>{try{localStorage.setItem('studyClockAI.focusStats.v2',JSON.stringify(stats))}catch(e){}};
+  const clamp=(x,a,b)=>Math.max(a,Math.min(b,x)),rand=(a,b)=>a+Math.random()*(b-a),ri=(a,b)=>Math.floor(rand(a,b));
+  const rgba=(color,alpha)=>{const n=parseInt(color.slice(1),16)||0;return `rgba(${n>>16&255},${n>>8&255},${n&255},${alpha})`};
+  const canvas=$('ambient'),ctx=canvas.getContext('2d',{alpha:false});
+  if(!ctx){$('status').textContent='CANVAS NOT SUPPORTED';return;}
+  let W=0,H=0,dpr=1,last=0,secondsToSave=0,scoreTimer=0,raf=0;
+  const rect=(x,y,w,h,r=0)=>{r=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()};
+  const rects=()=>state.mode==='both'?{snake:{x:0,y:0,w:W,h:H*.51},space:{x:0,y:H*.51,w:W,h:H*.49}}:{snake:{x:0,y:0,w:W,h:H},space:{x:0,y:0,w:W,h:H}};
 
-for(const b of document.querySelectorAll('.tab'))b.addEventListener('click',()=>setMode(b.dataset.mode));
-$('settingsBtn').addEventListener('click',()=>openSettings(true));$('closeBtn').addEventListener('click',()=>openSettings(false));$('doneBtn').addEventListener('click',()=>openSettings(false));$('scrim').addEventListener('click',()=>openSettings(false));document.addEventListener('keydown',e=>{if(e.key==='Escape')openSettings(false)});
-$('fullscreenBtn').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else openSettings(true)}catch{openSettings(true)}});
-for(const input of document.querySelectorAll('input[data-color]'))input.addEventListener('input',()=>{state.theme='custom';state.colors[input.dataset.color]=input.value;applyColors();for(const el of document.querySelectorAll('.theme'))el.setAttribute('aria-pressed','false');drawScores();save()});
-$('layout').addEventListener('change',e=>{state.layout=e.target.value;updateUI();save()});$('format').addEventListener('change',e=>{state.format=e.target.value;updateUI();save()});$('brightness').addEventListener('input',e=>{state.brightness=+e.target.value;updateUI();save()});$('speed').addEventListener('input',e=>{state.speed=+e.target.value;updateUI();save()});$('showHud').addEventListener('change',e=>{state.showHud=e.target.checked;updateUI();save()});$('wake').addEventListener('change',async e=>{state.wake=e.target.checked;save();await syncWake()});$('resetBtn').addEventListener('click',()=>{state=JSON.parse(JSON.stringify(defaultState));buildThemes();setMode(state.mode);updateUI();syncWake();save()});
-document.addEventListener('visibilitychange',()=>{if(!document.hidden){last=0;if(state.wake)syncWake()}});
-window.addEventListener('resize',resize);
-buildThemes();updateUI();snake=new SnakeWorld();space=new SpaceWorld();resize();setMode(state.mode);updateClock();setInterval(updateClock,1000);raf=requestAnimationFrame(frame);if(state.wake)syncWake();
+  function applyColors(){for(const [k,v] of Object.entries(state.colors))document.documentElement.style.setProperty('--'+k,v);document.documentElement.style.setProperty('--glow',String(state.brightness/100));$('themeMeta').content=state.colors.bg;document.querySelectorAll('[data-color]').forEach(x=>x.value=state.colors[x.dataset.color]);}
+  function updateClock(){const date=new Date(),h=date.getHours();$('hour').textContent=String(state.format==='12'?(h%12||12):h).padStart(2,'0');$('minute').textContent=String(date.getMinutes()).padStart(2,'0');$('period').textContent=h>=12?'PM':'AM';$('compactPeriod').textContent=state.format==='12'?(h>=12?'PM':'AM'):'';$('date').textContent=String(date.getDate()).padStart(2,'0')+' '+date.toLocaleString('en-US',{month:'short'}).toUpperCase()+' · '+date.toLocaleString('en-US',{weekday:'short'}).toUpperCase();$('period').style.visibility=state.format==='12'?'visible':'hidden'}
+  function makeThemes(){const root=$('themeGrid');root.replaceChildren();for(const t of themes){const b=document.createElement('button');b.className='theme';b.type='button';b.dataset.theme=t.id;b.setAttribute('aria-pressed',String(t.id===state.theme));b.innerHTML='<span class="theme-dots">'+[t.c.clock,t.c.snakeA,t.c.resource].map(c=>'<i style="background:'+c+'"></i>').join('')+'</span><span class="theme-name">'+t.name+'</span>';b.addEventListener('click',()=>{state.theme=t.id;state.colors={...t.c};updateUI();saveSettings()});root.append(b)}}
+  function updateUI(){applyColors();$('clock').classList.toggle('compact',state.layout==='compact');$('layout').value=state.layout;$('format').value=state.format;$('brightness').value=state.brightness;$('brightnessValue').textContent=state.brightness+'%';$('speed').value=state.speed;$('speedValue').textContent=Number(state.speed).toFixed(1)+'×';$('showHud').checked=state.showHud;$('wake').checked=state.wake;for(const id of ['date','metrics','modeLabel','status'])$(id).style.display=state.showHud?'':'none';$('modeLabel').textContent=state.mode==='snake'?'SNAKE · AUTOPILOT':state.mode==='space'?'SPACE IMPACT · AUTOPILOT':'TWO WORLDS · AUTOPILOT';for(const b of document.querySelectorAll('.tab'))b.setAttribute('aria-pressed',String(b.dataset.mode===state.mode));for(const b of document.querySelectorAll('.theme'))b.setAttribute('aria-pressed',String(b.dataset.theme===state.theme));updateClock();updateScores()}
+  function formatSecs(sec){const n=Math.floor(sec),h=Math.floor(n/3600),m=Math.floor(n%3600/60),s=n%60;return h>0?`${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`:`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
+  function updateScores(){let h='';if(state.mode!=='space')h+=`<span class="metric" style="color:${state.colors.snakeA}">🍎 EATEN <b>${stats.eaten}</b></span>`;if(state.mode!=='snake')h+=`<span class="metric" style="color:${state.colors.resource}">✧ ATOMS <b>${stats.resources}</b></span><span class="metric" style="color:${state.colors.shipA}">✦ HITS <b>${stats.asteroids+stats.aliens}</b></span>`;h+=`<span class="metric">◷ FOCUS <b>${formatSecs(stats.seconds)}</b></span>`;$('metrics').innerHTML=h}
+
+  // One independent pathfinding snake. No enemy snake and no programmed playback path.
+  class SnakeWorld {
+    constructor(){this.regionW=0;this.regionH=0;this.setup(390,840)}
+    setup(w,h){this.regionW=w;this.regionH=h;this.cols=clamp(Math.round(w/16),18,26);this.rows=clamp(Math.round(this.cols*h/Math.max(w,1)),17,58);this.tick=0;this.accum=0;this.flash=0;this.spawn();this.spawnFood()}
+    spawn(){const x=Math.floor(this.cols*.3),y=Math.floor(this.rows*.47);this.body=[{x,y},{x:x-1,y},{x:x-2,y},{x:x-3,y}];this.dir={x:1,y:0}}
+    occupied(excludeTail=true){const a=new Uint8Array(this.cols*this.rows);for(let i=0;i<this.body.length-(excludeTail?1:0);i++){const p=this.body[i];a[p.y*this.cols+p.x]=1}return a}
+    spawnFood(){for(let i=0;i<180;i++){const x=ri(1,this.cols-1),y=ri(1,this.rows-1);if(!this.body.some(b=>b.x===x&&b.y===y)){this.food={x,y};return}}this.food={x:1,y:1}}
+    examine(x,y,blocked){if(x<1||y<1||x>=this.cols-1||y>=this.rows-1||blocked[y*this.cols+x])return null;const seen=new Uint8Array(blocked.length),q=new Int32Array(blocked.length);let front=0,back=1,nearest=9999,space=0;q[0]=y*this.cols+x;seen[q[0]]=1;const foodKey=this.food.y*this.cols+this.food.x;while(front<back){const index=q[front++],cx=index%this.cols,cy=(index-cx)/this.cols;space++;if(index===foodKey)nearest=front===1?0:nearest;const ns=[index-1,index+1,index-this.cols,index+this.cols];for(const next of ns){const nx=next%this.cols,ny=(next-nx)/this.cols;if(next<0||next>=blocked.length||nx<1||ny<1||nx>=this.cols-1||ny>=this.rows-1||seen[next]||blocked[next])continue;seen[next]=1;q[back++]=next}};
+      // The flood fill above measures escape space; shortest food path is a separate BFS.
+      let dist=9999;if(seen[foodKey]){const queue=[{x,y,d:0}],vis=new Uint8Array(blocked.length);vis[y*this.cols+x]=1;for(let i=0;i<queue.length;i++){const v=queue[i];if(v.x===this.food.x&&v.y===this.food.y){dist=v.d;break}for(const [dx,dy] of [[1,0],[0,1],[-1,0],[0,-1]]){const nx=v.x+dx,ny=v.y+dy,id=ny*this.cols+nx;if(nx<1||ny<1||nx>=this.cols-1||ny>=this.rows-1||vis[id]||blocked[id])continue;vis[id]=1;queue.push({x:nx,y:ny,d:v.d+1})}}}return {space,dist}}
+    tailEscape(nextX,nextY,eating){
+      // Look ahead one step: avoid following food into a closed pocket.
+      const next=[{x:nextX,y:nextY},...this.body].slice(0,this.body.length+(eating?1:0));
+      const tail=next[next.length-1],grid=new Uint8Array(this.cols*this.rows);
+      for(let i=0;i<next.length-1;i++)grid[next[i].y*this.cols+next[i].x]=1;
+      const queue=[{x:nextX,y:nextY}],seen=new Uint8Array(grid.length);
+      seen[nextY*this.cols+nextX]=1;
+      for(let k=0;k<queue.length;k++){
+        const p=queue[k];if(p.x===tail.x&&p.y===tail.y)return true;
+        for(const [dx,dy] of [[1,0],[0,1],[-1,0],[0,-1]]){
+          const x=p.x+dx,y=p.y+dy,idx=y*this.cols+x;
+          if(x<1||y<1||x>=this.cols-1||y>=this.rows-1||grid[idx]||seen[idx])continue;
+          seen[idx]=1;queue.push({x,y});
+        }
+      }return false;
+    }
+    decide(){const blocked=this.occupied(true),head=this.body[0];blocked[head.y*this.cols+head.x]=0;let best=null;for(const [dx,dy] of [[1,0],[0,1],[-1,0],[0,-1]]){if(dx===-this.dir.x&&dy===-this.dir.y)continue;const x=head.x+dx,y=head.y+dy,info=this.examine(x,y,blocked);if(!info)continue;const isFood=x===this.food.x&&y===this.food.y;let utility=-Math.min(info.dist,130)*2.4+Math.min(info.space,300)*.045+(isFood?14:0);if(info.space<this.body.length+6)utility-=200;if(!this.tailEscape(x,y,isFood))utility-=120;if(dx===this.dir.x&&dy===this.dir.y)utility+=.5;utility+=rand(-.15,.15);if(!best||utility>best.utility)best={dx,dy,x,y,isFood,utility}}return best}
+    step(){this.tick++;const move=this.decide();if(!move){this.spawn();this.spawnFood();this.flash=.7;return}this.dir={x:move.dx,y:move.dy};this.body.unshift({x:move.x,y:move.y});if(move.isFood){stats.eaten++;saveStats();this.spawnFood();if(this.body.length>=Math.ceil((this.cols-2)*(this.rows-2)*.25)){this.spawn();this.spawnFood();this.flash=1.6}}else this.body.pop()}
+    update(dt){this.flash=Math.max(0,this.flash-dt);this.accum+=dt*state.speed;let iterations=0;while(this.accum>=.20&&iterations++<4){this.accum-=.20;this.step()}this.accum=Math.min(.5,this.accum)}
+    draw(r){const{x,y,w,h}=r;ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();const cell=Math.min(w/this.cols,h/this.rows),bw=cell*this.cols,bh=cell*this.rows,ox=x+(w-bw)/2,oy=y+(h-bh)/2;ctx.strokeStyle=rgba(state.colors.clock,.08);ctx.lineWidth=.75;ctx.beginPath();for(let i=0;i<=this.cols;i++){ctx.moveTo(ox+i*cell,oy);ctx.lineTo(ox+i*cell,oy+bh)}for(let j=0;j<=this.rows;j++){ctx.moveTo(ox,oy+j*cell);ctx.lineTo(ox+bw,oy+j*cell)}ctx.stroke();ctx.strokeStyle=rgba(state.colors.clock,.22);ctx.strokeRect(ox+.5,oy+.5,bw-1,bh-1);
+      const fx=ox+(this.food.x+.5)*cell,fy=oy+(this.food.y+.5)*cell;ctx.shadowColor=state.colors.snakeB;ctx.shadowBlur=16;ctx.fillStyle=state.colors.snakeB;ctx.beginPath();ctx.arc(fx,fy,cell*.29,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
+      for(let i=this.body.length-1;i>=0;i--){const b=this.body[i],px=ox+b.x*cell,py=oy+b.y*cell;ctx.fillStyle=rgba(state.colors.snakeA,i===0?1:clamp(.95-i*.004,.32,.90));ctx.shadowColor=state.colors.snakeA;ctx.shadowBlur=i===0?cell*.9:cell*.22;rect(px+cell*.06,py+cell*.06,cell*.88,cell*.88,cell*.22);ctx.fill();ctx.shadowBlur=0;if(i===0&&cell>7){ctx.fillStyle='#081312';ctx.beginPath();ctx.arc(px+cell*(.5+this.dir.x*.2),py+cell*(.5+this.dir.y*.2),cell*.105,0,Math.PI*2);ctx.fill()}}
+      if(this.flash>0){ctx.fillStyle=rgba(state.colors.snakeA,this.flash*.12);ctx.fillRect(ox,oy,bw,bh)}ctx.restore()}
+  }
+
+  // One autonomous explorer, with slow approaches, local goal selection and real collisions.
+  // A gentle Space Impact-inspired environment rather than a recorded looping scene.
+  class SpaceWorld {
+    constructor(){this.setup(390,840)}
+    setup(w,h){this.w=Math.max(180,w);this.h=Math.max(180,h);this.t=0;this.shots=[];this.enemyShots=[];this.rocks=[];this.enemies=[];this.atoms=[];this.fx=[];this.rockTime=rand(4,7);this.enemyTime=rand(9,15);this.atomTime=rand(3,5);this.ship={x:w*.27,y:h*.52,vy:0,goal:h*.52,cool:2,shield:3,invuln:1.3,seek:0};this.stars=Array.from({length:Math.min(160,Math.round(w*h/1750))},()=>({x:rand(0,w),y:rand(0,h),r:rand(.35,1.35),v:rand(3,17),a:rand(.25,.85)}));this.galaxies=Array.from({length:3},(_,i)=>({x:w*(i*.39+.10),y:h*(.25+i*.27),r:rand(58,105),t:rand(0,7),v:rand(1.3,3.2),i}))}
+    burst(x,y,c,n=9){for(let i=0;i<n;i++){const a=rand(0,Math.PI*2),s=rand(12,65),life=rand(.25,1);this.fx.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life,max:life,color:c})}if(this.fx.length>120)this.fx.splice(0,this.fx.length-120)}
+    spawnRock(){this.rocks.push({x:this.w+27,y:rand(32,this.h-32),r:rand(12,21),vx:rand(17,30),hp:1,spin:rand(-.5,.5),angle:rand(0,6)})}
+    spawnEnemy(){this.enemies.push({x:this.w+26,y:rand(38,this.h-38),vy:rand(-17,17),vx:rand(10,21),hp:1,fire:rand(3.5,6),age:0})}
+    spawnAtom(){this.atoms.push({x:this.w+15,y:rand(32,this.h-32),vx:rand(23,36),phase:rand(0,7),r:11})}
+    update(dt){dt=Math.min(.07,dt*state.speed);this.t+=dt;const w=this.w,h=this.h,s=this.ship;
+      for(const st of this.stars){st.x-=st.v*dt;if(st.x<0){st.x=w+2;st.y=rand(0,h)}}for(const g of this.galaxies){g.x-=g.v*dt;g.t+=dt*.035;if(g.x< -g.r)g.x=w+g.r}
+      this.rockTime-=dt;this.enemyTime-=dt;this.atomTime-=dt;
+      if(this.rockTime<=0){this.spawnRock();this.rockTime=rand(7,12)}if(this.enemyTime<=0){this.spawnEnemy();this.enemyTime=rand(15,25)}if(this.atomTime<=0){this.spawnAtom();this.atomTime=rand(5,8)}
+      for(const a of this.atoms){a.x-=a.vx*dt;a.phase+=dt*.75}for(const r of this.rocks){r.x-=r.vx*dt;r.angle+=r.spin*dt}for(const e of this.enemies){e.age+=dt;e.x-=e.vx*dt;e.y+=e.vy*dt+Math.sin(e.age*.6)*dt*5;if(e.y<35||e.y>h-35)e.vy*=-1;e.fire-=dt;if(e.fire<=0&&e.x>s.x+25){this.enemyShots.push({x:e.x-12,y:e.y,vx:-rand(73,97),vy:clamp((s.y-e.y)*.12,-13,13)});e.fire=rand(4.5,7)}}
+      s.seek-=dt;if(s.seek<=0){s.seek=.2;let goal=h*.5+Math.sin(this.t*.39)*h*.12;const approaching=this.atoms.filter(a=>a.x>s.x-12&&a.x<s.x+260).sort((a,b)=>a.x-b.x)[0];if(approaching){const time=Math.max(0,(approaching.x-s.x)/approaching.vx);goal=approaching.y+Math.sin(approaching.phase+time*.7)*3}const activeAlien=this.enemies.filter(e=>e.x>s.x+30&&e.x<w-8).sort((a,b)=>a.x-b.x)[0];if(activeAlien&&(!approaching||Math.sin(this.t*.33)>0.38)){const lead=Math.max(0,(activeAlien.x-s.x)/(176+activeAlien.vx));goal=activeAlien.y+activeAlien.vy*lead}
+        const danger=[...this.enemyShots.map(b=>({x:b.x,y:b.y,r:8,v:b.vx})),...this.rocks.map(r=>({x:r.x,y:r.y,r:r.r,v:-r.vx}))];for(const obj of danger){if(obj.x>s.x&&obj.x<s.x+120&&Math.abs(obj.y-s.y)<obj.r+28){goal=s.y+(s.y<obj.y?-1:1)*Math.min(92,obj.r+63);break}}s.goal=clamp(goal,30,h-30)}
+      const desired=clamp((s.goal-s.y)*1.65,-53,53);s.vy+=(desired-s.vy)*Math.min(1,dt*2.0);s.y=clamp(s.y+s.vy*dt,22,h-22);s.x=w*(.26+.018*Math.sin(this.t*.3));s.cool-=dt;s.invuln=Math.max(0,s.invuln-dt);
+      // Fire only when a rock or alien is reasonably aligned; not a constant barrage.
+      if(s.cool<=0){const candidates=[...this.rocks.map(o=>({o,type:'rock'})),...this.enemies.map(o=>({o,type:'alien'}))].filter(p=>p.o.x>s.x+20&&p.o.x<w-10&&Math.abs(p.o.y-s.y)<46).sort((a,b)=>a.o.x-b.o.x);if(candidates.length){const target=candidates[0].o,travel=(target.x-s.x)/(176+target.vx);this.shots.push({x:s.x+17,y:s.y,vx:176,vy:clamp(((target.y+(target.vy||0)*travel)-s.y)/Math.max(travel,.3),-46,46),life:2.8});s.cool=rand(2.2,4.3);this.burst(s.x+18,s.y,state.colors.shipA,3)}}
+      for(let i=this.shots.length-1;i>=0;i--){const b=this.shots[i];b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;let hit=false;for(const r of this.rocks){if(Math.hypot(b.x-r.x,b.y-r.y)<r.r){r.hp--;hit=true;this.burst(r.x,r.y,'#b7b7d5',14);if(r.hp<=0){stats.asteroids++;saveStats()}break}}if(!hit)for(const e of this.enemies){if(Math.hypot(b.x-e.x,b.y-e.y)<17){e.hp--;hit=true;this.burst(e.x,e.y,state.colors.shipB,10);if(e.hp<=0){stats.aliens++;this.burst(e.x,e.y,state.colors.shipB,24);saveStats()}break}}if(hit||b.life<=0||b.x>w+25||b.y<0||b.y>h)this.shots.splice(i,1)}
+      this.rocks=this.rocks.filter(r=>r.hp>0&&r.x> -35);this.enemies=this.enemies.filter(e=>e.hp>0&&e.x> -35);
+      for(let i=this.atoms.length-1;i>=0;i--){const a=this.atoms[i];if(Math.hypot(a.x-s.x,a.y-s.y)<30){stats.resources++;saveStats();this.burst(a.x,a.y,state.colors.resource,16);this.atoms.splice(i,1)}else if(a.x< -30)this.atoms.splice(i,1)}
+      for(let i=this.enemyShots.length-1;i>=0;i--){const b=this.enemyShots[i];b.x+=b.vx*dt;b.y+=b.vy*dt;if(s.invuln<=0&&Math.hypot(b.x-s.x,b.y-s.y)<16){s.shield--;s.invuln=1.5;this.burst(s.x,s.y,state.colors.shipA,15);this.enemyShots.splice(i,1);if(s.shield<=0){s.shield=3;s.invuln=4;this.burst(s.x,s.y,state.colors.shipA,28)}continue}if(b.x< -20)this.enemyShots.splice(i,1)}
+      for(const r of this.rocks){if(s.invuln<=0&&Math.hypot(s.x-r.x,s.y-r.y)<r.r+14){s.shield--;s.invuln=1.4;r.hp=0;this.burst(s.x,s.y,state.colors.shipA,12);if(s.shield<=0){s.shield=3;s.invuln=4}}}this.rocks=this.rocks.filter(r=>r.hp>0);
+      for(let i=this.fx.length-1;i>=0;i--){const p=this.fx[i];p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;if(p.life<=0)this.fx.splice(i,1)}
+    }
+    drawGalaxy(g){const r=g.r,color=[state.colors.shipA,state.colors.clock,state.colors.shipB][g.i];const fade=ctx.createRadialGradient(g.x,g.y,1,g.x,g.y,r*1.3);fade.addColorStop(0,rgba(color,.26));fade.addColorStop(.4,rgba(color,.13));fade.addColorStop(1,rgba(color,0));ctx.fillStyle=fade;ctx.beginPath();ctx.arc(g.x,g.y,r*1.3,0,Math.PI*2);ctx.fill();const cos=Math.cos(g.t),sin=Math.sin(g.t);for(let arm=0;arm<3;arm++){for(let i=0;i<28;i++){const t=(i+2)/30,angle=t*4.8+arm*2*Math.PI/3,radius=r*t;const x=radius*Math.cos(angle),y=radius*.56*Math.sin(angle);const gx=g.x+x*cos-y*sin,gy=g.y+x*sin+y*cos;ctx.fillStyle=rgba(color,(1-t)*.39+.055);ctx.fillRect(gx,gy,t<.15?1.6:1.1,t<.15?1.6:1.1)}}ctx.fillStyle=rgba('#fff9de',.5);ctx.beginPath();ctx.arc(g.x,g.y,2.3,0,Math.PI*2);ctx.fill()}
+    drawAtom(a){ctx.save();ctx.translate(a.x,a.y);ctx.rotate(a.phase);ctx.shadowColor=state.colors.resource;ctx.shadowBlur=13;ctx.strokeStyle=rgba(state.colors.resource,.85);ctx.lineWidth=1.25;for(let i=0;i<3;i++){ctx.save();ctx.rotate(i*Math.PI/3);ctx.beginPath();ctx.ellipse(0,0,11,4.7,0,0,Math.PI*2);ctx.stroke();ctx.restore()}ctx.fillStyle=state.colors.resource;ctx.beginPath();ctx.arc(0,0,2.8,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.restore()}
+    draw(r){const{x,y,w,h}=r;ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();ctx.translate(x,y);ctx.scale(w/this.w,h/this.h);
+      for(const g of this.galaxies)this.drawGalaxy(g);for(const st of this.stars){ctx.fillStyle=rgba(state.colors.clock,st.a);ctx.beginPath();ctx.arc(st.x,st.y,st.r,0,Math.PI*2);ctx.fill()}
+      for(const a of this.atoms)this.drawAtom(a);
+      for(const r of this.rocks){ctx.save();ctx.translate(r.x,r.y);ctx.rotate(r.angle);ctx.fillStyle=rgba(state.colors.clock,.16);ctx.strokeStyle=rgba(state.colors.clock,.56);ctx.lineWidth=1.4;ctx.beginPath();for(let i=0;i<10;i++){const angle=i*Math.PI/5,rad=r.r*(.84+.16*Math.sin(i*6.1));if(i===0)ctx.moveTo(Math.cos(angle)*rad,Math.sin(angle)*rad);else ctx.lineTo(Math.cos(angle)*rad,Math.sin(angle)*rad)}ctx.closePath();ctx.fill();ctx.stroke();ctx.restore()}
+      for(const e of this.enemies){ctx.save();ctx.translate(e.x,e.y);ctx.shadowColor=state.colors.shipB;ctx.shadowBlur=10;ctx.strokeStyle=state.colors.shipB;ctx.fillStyle=rgba(state.colors.shipB,.19);ctx.lineWidth=1.8;ctx.beginPath();ctx.moveTo(-15,0);ctx.lineTo(-2,-12);ctx.lineTo(9,-7);ctx.lineTo(15,0);ctx.lineTo(9,7);ctx.lineTo(-2,12);ctx.closePath();ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(-3,-8);ctx.lineTo(-3,8);ctx.moveTo(3,-7);ctx.lineTo(3,7);ctx.stroke();ctx.restore()}
+      ctx.lineCap='round';for(const b of this.shots){ctx.strokeStyle=state.colors.shipA;ctx.shadowColor=state.colors.shipA;ctx.shadowBlur=8;ctx.lineWidth=2.7;ctx.beginPath();ctx.moveTo(b.x-13,b.y-b.vy*.065);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.shadowBlur=0}for(const b of this.enemyShots){ctx.strokeStyle=state.colors.shipB;ctx.shadowColor=state.colors.shipB;ctx.shadowBlur=8;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(b.x+9,b.y);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.shadowBlur=0}
+      const s=this.ship;ctx.save();ctx.translate(s.x,s.y);ctx.globalAlpha=s.invuln>0?.68+.30*Math.cos(this.t*11)**2:1;ctx.strokeStyle=state.colors.shipA;ctx.fillStyle=rgba(state.colors.shipA,.24);ctx.shadowColor=state.colors.shipA;ctx.shadowBlur=17;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(20,0);ctx.lineTo(-11,-13);ctx.lineTo(-6,-5);ctx.lineTo(-17,-5);ctx.lineTo(-17,5);ctx.lineTo(-6,5);ctx.lineTo(-11,13);ctx.closePath();ctx.fill();ctx.stroke();ctx.shadowBlur=0;ctx.fillStyle=state.colors.shipA;ctx.beginPath();ctx.arc(1,0,3.6,0,Math.PI*2);ctx.fill();ctx.fillStyle=rgba(state.colors.shipA,.5);ctx.beginPath();ctx.moveTo(-16,-4);ctx.lineTo(-24-rand(0,3),0);ctx.lineTo(-16,4);ctx.closePath();ctx.fill();ctx.restore();
+      for(const p of this.fx){ctx.fillStyle=rgba(p.color,clamp(p.life/p.max,0,1));ctx.fillRect(p.x,p.y,2,2)}ctx.restore()}
+  }
+
+  const snake=new SnakeWorld(),space=new SpaceWorld();
+  function resize(){const b=$('app').getBoundingClientRect();if(!b.width||!b.height)return;const prevW=W,prevH=H;W=b.width;H=b.height;dpr=Math.min(2,window.devicePixelRatio||1);canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);canvas.style.width=W+'px';canvas.style.height=H+'px';if(Math.abs(W-prevW)>2||Math.abs(H-prevH)>2){const r=rects();snake.setup(r.snake.w,r.snake.h);space.setup(r.space.w,r.space.h)}}
+  function changeMode(mode){if(!['snake','space','both'].includes(mode))return;if(state.mode!==mode){state.mode=mode;const r=rects();snake.setup(r.snake.w,r.snake.h);space.setup(r.space.w,r.space.h)}updateUI();saveSettings()}
+  function restart(){if(!window.confirm('Restart your focus session? This resets the food counter, collected resources, hits, and focus timer.'))return;stats={...statsDefault};saveStats();const r=rects();snake.setup(r.snake.w,r.snake.h);space.setup(r.space.w,r.space.h);updateScores()}
+  function render(ts){raf=requestAnimationFrame(render);const dt=last?Math.min(.08,Math.max(0,(ts-last)/1000)):.016;last=ts;if(document.hidden)return;stats.seconds+=dt;scoreTimer+=dt;secondsToSave+=dt;if(secondsToSave>5){secondsToSave=0;saveStats()}ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle=state.colors.bg;ctx.fillRect(0,0,W,H);const r=rects();if(state.mode!=='space'){snake.update(dt);snake.draw(r.snake)}if(state.mode!=='snake'){space.update(dt);space.draw(r.space)}if(state.mode==='both'){ctx.strokeStyle=rgba(state.colors.clock,.19);ctx.beginPath();ctx.moveTo(14,H*.51);ctx.lineTo(W-14,H*.51);ctx.stroke()}if(scoreTimer>.5){scoreTimer=0;updateScores()}}
+  let wakeLock=null;
+  async function syncWake(){if(wakeLock){try{await wakeLock.release()}catch(e){}wakeLock=null}if(state.wake&&navigator.wakeLock){try{wakeLock=await navigator.wakeLock.request('screen')}catch(e){}}}
+  function settingsOpen(open){$('settings').classList.toggle('open',open);$('settings').setAttribute('aria-hidden',String(!open));$('scrim').classList.toggle('show',open);(open?$('closeBtn'):$('settingsBtn')).focus()}
+  for(const b of document.querySelectorAll('.tab'))b.addEventListener('click',()=>changeMode(b.dataset.mode));
+  $('settingsBtn').addEventListener('click',()=>settingsOpen(true));$('closeBtn').addEventListener('click',()=>settingsOpen(false));$('doneBtn').addEventListener('click',()=>settingsOpen(false));$('scrim').addEventListener('click',()=>settingsOpen(false));document.addEventListener('keydown',e=>{if(e.key==='Escape')settingsOpen(false)});
+  $('restartBtn').addEventListener('click',restart);$('restartSettingsBtn').addEventListener('click',restart);
+  $('fullscreenBtn').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else settingsOpen(true)}catch(e){settingsOpen(true)}});
+  for(const inp of document.querySelectorAll('input[data-color]'))inp.addEventListener('input',()=>{state.theme='custom';state.colors[inp.dataset.color]=inp.value;applyColors();for(const b of document.querySelectorAll('.theme'))b.setAttribute('aria-pressed','false');updateScores();saveSettings()});
+  for(const [id,key] of [['layout','layout'],['format','format']])$(id).addEventListener('change',e=>{state[key]=e.target.value;updateUI();saveSettings()});
+  for(const [id,key] of [['brightness','brightness'],['speed','speed']])$(id).addEventListener('input',e=>{state[key]=Number(e.target.value);updateUI();saveSettings()});
+  $('showHud').addEventListener('change',e=>{state.showHud=e.target.checked;updateUI();saveSettings()});$('wake').addEventListener('change',e=>{state.wake=e.target.checked;saveSettings();syncWake()});
+  $('resetBtn').addEventListener('click',()=>{const currentMode=state.mode;state=clone(defaults);state.mode=currentMode;makeThemes();updateUI();saveSettings();syncWake()});
+  document.addEventListener('visibilitychange',()=>{last=0;if(document.hidden)saveStats();else if(state.wake)syncWake()});window.addEventListener('pagehide',saveStats);window.addEventListener('resize',resize);
+  makeThemes();updateUI();resize();updateClock();setInterval(updateClock,1000);raf=requestAnimationFrame(render);if(state.wake)syncWake();
 })();
 </script>
 </body>
